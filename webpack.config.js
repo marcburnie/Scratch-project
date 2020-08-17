@@ -24,9 +24,9 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-          }
-        }
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+          },
+        },
       },
       {
         test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
@@ -48,14 +48,14 @@ module.exports = {
     // contentBase: path.resolve(__dirname, '/dist'),
     // publicPath: '/dist/',
     proxy: {
-      '/': {
+      '/api/**': {
         target: 'http://localhost:3000',
         secure: false,
       },
-      // '/assets/**': {
-      //   target: 'http://localhost:3000',
-      //   secure: false,
-      // },
+      '/assets/**': {
+        target: 'http://localhost:3000',
+        secure: false,
+      },
     },
     hot: true,
   },
@@ -63,9 +63,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './client/index.html',
     }),
-    new MiniCssExtractPlugin() 
+    new MiniCssExtractPlugin()
   ],
-}
-
-
-
+};
