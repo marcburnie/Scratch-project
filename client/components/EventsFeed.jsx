@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import Event from './Event.jsx';
 
 export default function EventsFeed(props) {
@@ -6,16 +6,19 @@ export default function EventsFeed(props) {
   //creates events for each event in feed
   if (props.events && Object.keys(props.events).length > 0) {
     events = props.events.map((event, index) => {
-      return <Event
-        {...event}
-        userUpdate={props.userUpdate}
-        key={`EventsFeed${index}`}
-      />
-    })
+      console.log(event, index);
+      return (
+        <Event
+          {...event}
+          userUpdate={props.userUpdate}
+          key={`EventsFeed${index}`}
+          // Functionality for removing events
+          id={index}
+          setEvents={props.setEvents}
+          events={props.events}
+        />
+      );
+    });
   }
-  return (
-    <div className="events">
-      {events}
-    </div>
-  );
+  return <div className='events'>{events}</div>;
 }
