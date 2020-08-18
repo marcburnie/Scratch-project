@@ -38,6 +38,7 @@ export default function MainContainer() {
     axios.post(`/api/create?userName=${userName}`, { eventtitle, eventlocation, eventdate, eventstarttime, eventdetails })
       .then((res) => {
       })
+      // needs fixing
     event.attendees = [{
       username: user.username,
       profilephoto: user.profilephoto
