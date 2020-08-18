@@ -48,11 +48,7 @@ module.exports = {
     // contentBase: path.resolve(__dirname, '/dist'),
     // publicPath: '/dist/',
     proxy: {
-      '/api/**': {
-        target: 'http://localhost:3000',
-        secure: false,
-      },
-      '/assets/**': {
+      '/api/': {
         target: 'http://localhost:3000',
         secure: false,
       },

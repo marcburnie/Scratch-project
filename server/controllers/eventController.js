@@ -2,7 +2,7 @@ const db = require("../models/models");
 const queries = require("../utils/queries");
 const eventController = {};
 
-eventController.getFullEvents = (req, res, next) => {
+eventController.getFullEvents = (req, res, next) => {   //FLAGGED FOR DELETION
 
   const queryString = queries.userEvents;
   const queryValues = [res.locals.allUserInfo.userid]; //user will have to be verified Jen / Minchan
@@ -23,7 +23,7 @@ eventController.getFullEvents = (req, res, next) => {
     })
 };
 
-eventController.getAllAttendees = async (req, res, next) => {
+eventController.getAllAttendees = async (req, res, next) => { //FLAGGED FOR DELETION
   const allEvents = res.locals.allEventsInfo; // ALL EVENTS FOR THAT USER
   const arrayOfEventTitles = []; // ['marc birthday', 'minchan birthday' ... ]
   for (const event of allEvents) {
@@ -210,7 +210,7 @@ eventController.allEvents = (req, res, next) => {
 };
 
 
-eventController.getUserDetail = (req, res, next) => {
+eventController.getUserDetail = (req, res, next) => {  //FLAGGED FOR DELETION
 
   const countObj = []; // each element should how many attendees are for each event in succession;
   res.locals.attendees.forEach(arr => {
@@ -257,7 +257,7 @@ eventController.getUserDetail = (req, res, next) => {
     .catch(err => console.log('promise.all err: ', err));
 }
 
-eventController.consolidation = (req, res, next) => {
+eventController.consolidation = (req, res, next) => { //FLAGGED FOR DELETION
   const consolidatedEvents = { ...res.locals.allEventsInfo };
   res.locals.userDetail.forEach((arr, i) => {
     consolidatedEvents[i].attendees = arr;
