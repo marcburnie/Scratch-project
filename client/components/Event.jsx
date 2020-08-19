@@ -34,8 +34,9 @@ export default function Event(props) {
                   console.log(removedEvent);
 
                   // Send delete http request here!
-                  /* const { eventid } = removedEvent;
-              axios.delete(`/api/events/${eventid}`).then((res) => {}); */
+                  const { eventid } = removedEvent[0];
+                  console.log(eventid);
+                  axios.delete(`/api/events/${eventid}`).then((res) => {});
                 }}
               >
                 X

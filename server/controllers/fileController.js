@@ -119,7 +119,7 @@ fileController.userCanModifyEvent = (req, res, next) => {
   db.query(queries.checkEventOwner, [eventid])
     // check that the eventowner matches the userid
     .then((ownerUsername) => {
-      if (ownerUsername === email) return next();
+      if (ownerUsername.rows[0].eventownerusername === email) return next();
       return next({
         log: 'Error occurred with fileController.userCanModifyEvent',
         code: 401,

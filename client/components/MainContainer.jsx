@@ -32,7 +32,7 @@ export default function MainContainer() {
   }
   //handles the state change and posts to database on event creation
   function handleCreateEvent(event, newEvent, eventIndex) {
-    if (!newEvent) return console.log('NEW EVENT');
+    console.log(event);
     let {
       eventtitle,
       eventlocation,
@@ -40,24 +40,38 @@ export default function MainContainer() {
       eventstarttime,
       eventdetails,
     } = event;
-    axios
-      .post(`/api/create?userName=${userName}`, {
-        eventtitle,
-        eventlocation,
-        eventdate,
-        eventstarttime,
-        eventdetails,
-      })
-      .then((res) => {});
-    event.attendees = [
-      {
-        username: user.username,
-        profilephoto: user.profilephoto,
-      },
-    ];
-    event.eventownerusername = userName;
-    const newEvents = [event].concat(events);
-    return setEvents(newEvents);
+    if (!newEvent) {
+      axios
+        .put(`/api/events/${events[eventIndex].eventid}`, {
+          eventtitle,
+          eventlocation,
+          eventdate,
+          eventstarttime,
+          eventdetails,
+        })
+        .then((res) => {
+          // Update events state variable
+        });
+    } else {
+      axios
+        .post(`/api/create?userName=${userName}`, {
+          eventtitle,
+          eventlocation,
+          eventdate,
+          eventstarttime,
+          eventdetails,
+        })
+        .then((res) => {});
+      event.attendees = [
+        {
+          username: user.username,
+          profilephoto: user.profilephoto,
+        },
+      ];
+      event.eventownerusername = userName;
+      const newEvents = [event].concat(events);
+      return setEvents(newEvents);
+    }
   }
 
   //handles the state change and posts to database on search event add

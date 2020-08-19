@@ -61,7 +61,7 @@ WHERE eventid=$1
 
 // QUERY FOR WHEN USER TRIES TO MODIFY OR DELETE EVENT
 queries.checkEventOwner = `
-SELECT * eventownusername
+SELECT eventownerusername
 FROM events
 WHERE eventid=$1
  `;
@@ -83,7 +83,8 @@ RETURNING eventid
 `;
 
 // GRAB EVENT'S ATTENDEES
-queries.selectEventAttendees = 'SELECT * FROM usersandevents WHERE eventtitle=$1';
+queries.selectEventAttendees =
+  'SELECT * FROM usersandevents WHERE eventtitle=$1';
 
 // CLEAR ALL TABLES & DATA
 queries.clearAll = `

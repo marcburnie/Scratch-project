@@ -19,15 +19,22 @@ export default function CreateEvent({ addEvent, updatingEvent, eventIndex }) {
   const [show, setShow] = useState(false);
   //handles any change tot he form and updates the state
   const handleChange = (e) => {
-    updateFormData({
-      ...formData,
-      // Trimming any whitespace
-      [e.target.name]: e.target.value.trim(),
-    });
+    if (e.place) {
+      return updateFormData({
+        ...formData,
+        eventlocation: e.place,
+      });
+    } else
+      return updateFormData({
+        ...formData,
+        // Trimming any whitespace
+        [e.target.name]: e.target.value.trim(),
+      });
   };
   //handles submit event - create date and time and append to the event object
   const handleSubmit = (e, newEvent) => {
     e.preventDefault();
+    console.log(formData);
     const eventdate = dateTime.toDateString();
     let time = dateTime.toTimeString();
     let eventstarttime = time.split(' ')[0];
