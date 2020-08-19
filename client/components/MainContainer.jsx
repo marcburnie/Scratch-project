@@ -51,6 +51,13 @@ export default function MainContainer() {
         })
         .then((res) => {
           // Update events state variable
+          const updatedEvents = events;
+          updatedEvents[eventIndex] = {
+            ...updatedEvents[eventIndex],
+            ...event,
+          };
+
+          return setEvents(updatedEvents);
         });
     } else {
       axios
