@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { GoogleComponent } from 'react-google-location';
 import DateTimePicker from 'react-datetime-picker';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,7 +36,6 @@ export default function CreateEvent({ addEvent, updatingEvent, eventIndex }) {
 
     handleClose();
   };
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -53,7 +52,7 @@ export default function CreateEvent({ addEvent, updatingEvent, eventIndex }) {
   return (
     <div>
       <div className={cardClass} onClick={handleShow}>
-        <FontAwesomeIcon className='mx-auto faPlus' icon={faPlus} size='4px' />
+        <FontAwesomeIcon className='mx-auto faPlus' icon={faPlus} />
         <p>{buttonTitle}</p>
       </div>
 
@@ -84,6 +83,14 @@ export default function CreateEvent({ addEvent, updatingEvent, eventIndex }) {
                 type='text'
                 placeholder='Enter location'
               />
+              {/* <GoogleComponent
+                apiKey={'AIzaSyBocV_s8PP94rcQYj51LXNbP957tHl9kxo'}
+                language={'en'}
+                country={'country:us'}
+                coordinates={true}
+                name='eventlocation'
+                onChange={handleChange}
+              /> */}
             </Form.Group>
 
             <Form.Group controlId='formEventDescription'>
