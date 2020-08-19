@@ -2,65 +2,65 @@ const db = require("../models/models");
 const queries = require("../utils/queries");
 const eventController = {};
 
-eventController.getFullEvents = (req, res, next) => {   //FLAGGED FOR DELETION
+// eventController.getFullEvents = (req, res, next) => {   //FLAGGED FOR DELETION
 
-  const queryString = queries.userEvents;
-  const queryValues = [res.locals.allUserInfo.userid]; //user will have to be verified Jen / Minchan
-  db.query(queryString, queryValues)
-    .then(data => {
-      if (!data.rows[0]) {
-        res.locals.allEventsInfo = [];
-      } else {
-        res.locals.allEventsInfo = data.rows;
-      }
-      return next();
-    })
-    .catch(err => {
-      return next({
-        log: `Error occurred with queries.userEvents OR eventController.getFullEvents middleware: ${err}`,
-        message: { err: "An error occured with SQL when retrieving events information." },
-      });
-    })
-};
+//   const queryString = queries.userEvents;
+//   const queryValues = [res.locals.allUserInfo.userid]; //user will have to be verified Jen / Minchan
+//   db.query(queryString, queryValues)
+//     .then(data => {
+//       if (!data.rows[0]) {
+//         res.locals.allEventsInfo = [];
+//       } else {
+//         res.locals.allEventsInfo = data.rows;
+//       }
+//       return next();
+//     })
+//     .catch(err => {
+//       return next({
+//         log: `Error occurred with queries.userEvents OR eventController.getFullEvents middleware: ${err}`,
+//         message: { err: "An error occured with SQL when retrieving events information." },
+//       });
+//     })
+// };
 
-eventController.getAllAttendees = async (req, res, next) => { //FLAGGED FOR DELETION
-  const allEvents = res.locals.allEventsInfo; // ALL EVENTS FOR THAT USER
-  const arrayOfEventTitles = []; // ['marc birthday', 'minchan birthday' ... ]
-  for (const event of allEvents) {
-    arrayOfEventTitles.push(event.eventtitle);
-  }
+// eventController.getAllAttendees = async (req, res, next) => { //FLAGGED FOR DELETION
+//   const allEvents = res.locals.allEventsInfo; // ALL EVENTS FOR THAT USER
+//   const arrayOfEventTitles = []; // ['marc birthday', 'minchan birthday' ... ]
+//   for (const event of allEvents) {
+//     arrayOfEventTitles.push(event.eventtitle);
+//   }
 
-  res.locals.attendees = [];
-  const queryString = queries.selectEventAttendees;
+//   res.locals.attendees = [];
+//   const queryString = queries.selectEventAttendees;
 
-  const promises = [];
+//   const promises = [];
 
-  for (let i = 0; i < arrayOfEventTitles.length; i++) {
-    const result = new Promise((resolve, reject) => {
-      try {
-        const queryResult = db.query(queryString, [arrayOfEventTitles[i]]);
-        return resolve(queryResult)
-      } catch (err) {
-        return reject(err);
-      }
-    })
-    promises.push(result);
-  }
+//   for (let i = 0; i < arrayOfEventTitles.length; i++) {
+//     const result = new Promise((resolve, reject) => {
+//       try {
+//         const queryResult = db.query(queryString, [arrayOfEventTitles[i]]);
+//         return resolve(queryResult)
+//       } catch (err) {
+//         return reject(err);
+//       }
+//     })
+//     promises.push(result);
+//   }
 
-  const resolvedPromises = Promise.all(promises)
-    .then(data => {
-      for (let i = 0; i < data.length; i++) {
-        const container = [];
-        data[i].rows.forEach(obj => {
-          container.push(obj.username);
-        })
-        res.locals.attendees.push(container);
-      }
-      return next();
-    })
-    .catch(err => console.log('promise.all err: ', err));
+//   const resolvedPromises = Promise.all(promises)
+//     .then(data => {
+//       for (let i = 0; i < data.length; i++) {
+//         const container = [];
+//         data[i].rows.forEach(obj => {
+//           container.push(obj.username);
+//         })
+//         res.locals.attendees.push(container);
+//       }
+//       return next();
+//     })
+//     .catch(err => console.log('promise.all err: ', err));
 
-}
+// }
 
 eventController.createEvent = (req, res, next) => {
 
@@ -210,60 +210,60 @@ eventController.allEvents = (req, res, next) => {
 };
 
 
-eventController.getUserDetail = (req, res, next) => {  //FLAGGED FOR DELETION
+// eventController.getUserDetail = (req, res, next) => {  //FLAGGED FOR DELETION
 
-  const countObj = []; // each element should how many attendees are for each event in succession;
-  res.locals.attendees.forEach(arr => {
-    countObj.push(arr.length);
-  })
+//   const countObj = []; // each element should how many attendees are for each event in succession;
+//   res.locals.attendees.forEach(arr => {
+//     countObj.push(arr.length);
+//   })
 
-  const allUsernames = res.locals.attendees.flat(Infinity);
-  console.log('FLATTENED USERNAMES', allUsernames);
+//   const allUsernames = res.locals.attendees.flat(Infinity);
+//   console.log('FLATTENED USERNAMES', allUsernames);
 
-  const queryString = queries.userInfo;
+//   const queryString = queries.userInfo;
 
-  const promises = [];
+//   const promises = [];
 
-  for (let i = 0; i < allUsernames.length; i++) {
-    const result = new Promise((resolve, reject) => {
-      try {
-        const queryResult = db.query(queryString, [allUsernames[i]]);
-        return resolve(queryResult)
-      } catch (err) {
-        return reject(err);
-      }
-    })
-    promises.push(result);
-  }
+//   for (let i = 0; i < allUsernames.length; i++) {
+//     const result = new Promise((resolve, reject) => {
+//       try {
+//         const queryResult = db.query(queryString, [allUsernames[i]]);
+//         return resolve(queryResult)
+//       } catch (err) {
+//         return reject(err);
+//       }
+//     })
+//     promises.push(result);
+//   }
 
-  const resolvedPromises = Promise.all(promises)
-    .then(data => {
+//   const resolvedPromises = Promise.all(promises)
+//     .then(data => {
 
-      res.locals.userDetail = [];
+//       res.locals.userDetail = [];
 
-      for (let i = 0; i < countObj.length; i += 1) {
-        let turns = countObj[i]
-        let count = 0;
-        const container = [];
-        while (count < turns) {
-          const minchan = data.shift()
-          container.push(minchan.rows[0]);
-          count++;
-        }
-        res.locals.userDetail.push(container);
-      }
-      return next();
-    })
-    .catch(err => console.log('promise.all err: ', err));
-}
+//       for (let i = 0; i < countObj.length; i += 1) {
+//         let turns = countObj[i]
+//         let count = 0;
+//         const container = [];
+//         while (count < turns) {
+//           const minchan = data.shift()
+//           container.push(minchan.rows[0]);
+//           count++;
+//         }
+//         res.locals.userDetail.push(container);
+//       }
+//       return next();
+//     })
+//     .catch(err => console.log('promise.all err: ', err));
+// }
 
-eventController.consolidation = (req, res, next) => { //FLAGGED FOR DELETION
-  const consolidatedEvents = { ...res.locals.allEventsInfo };
-  res.locals.userDetail.forEach((arr, i) => {
-    consolidatedEvents[i].attendees = arr;
-  })
-  return next();
-}
+// eventController.consolidation = (req, res, next) => { //FLAGGED FOR DELETION
+//   const consolidatedEvents = { ...res.locals.allEventsInfo };
+//   res.locals.userDetail.forEach((arr, i) => {
+//     consolidatedEvents[i].attendees = arr;
+//   })
+//   return next();
+// }
 
 //filters out all events to only return the ones that the current user is attending
 eventController.filterForUser = (req, res, next) => {
@@ -272,6 +272,14 @@ eventController.filterForUser = (req, res, next) => {
   const filtered = res.locals.allEventsInfo.filter(event => event.attendees.some(attendee => attendee.userid === userid))
   res.locals.allEventsInfo = filtered;
   return next();
+}
+
+eventController.updateEvent = (req, res, next) => {
+  next()
+}
+
+eventController.deleteEvent = (req, res, next) => {
+  next()
 }
 
 module.exports = eventController;
