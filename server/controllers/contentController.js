@@ -5,12 +5,14 @@ const contentController = {};
 
 contentController.createContent = (req, res, next) => {
   const { userid } = res.locals.allUserInfo;
-  //   const { eventid } = req.params;
-  // need to get eventid
-  const queryString = queries.createContent; // make this query
-  const {
-    eventid, content, contentdate, contenttime,
-  } = req.body;
+  const { eventid, content } = req.body;
+  const queryString = queries.createContent;
+
+  // define new date/time
+  const now = new Date();
+  const contentdate = now.toDateString();
+  const contenttime = now.toTimeString().split(' ')[0];
+
   const queryValues = [userid, eventid, content, contentdate, contenttime];
   db.query(queryString, queryValues)
     .then((data) => {
@@ -26,6 +28,34 @@ contentController.createContent = (req, res, next) => {
     });
 };
 
+contentController.updateContent = (req, res, next) => {
+  const { contentid } = req.params;
+  const { content } = req.body;
+  const queryValues = [contentid, content];
+
+  db.query(queries.updateContent, queryValues)
+    .then((resp) => {
+      console.log('successful content delete, : ', resp);
+      return next();
+    })
+    .catch((err) => next({
+      log: `Error occurred with contentController.deleteContent middleware: ${err}`,
+      message: { err: 'An error occured with SQL when deleting content information.' },
+    }));
+};
+
 contentController.deleteContent = (req, res, next) => {
-    const {userid}
-}
+  const { contentid } = req.params;
+
+  db.query(queries.deleteContent, [contentid])
+    .then((resp) => {
+      console.log('successful content delete, : ', resp);
+      return next();
+    })
+    .catch((err) => next({
+      log: `Error occurred with contentController.deleteContent middleware: ${err}`,
+      message: { err: 'An error occured with SQL when deleting content information.' },
+    }));
+};
+
+module.exports = contentController;

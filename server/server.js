@@ -43,7 +43,7 @@ app.get('/', (req, res) => {
 app.use('/api', apiRouter);
 
 // CONTENT ROUTER
-router.use('/content', contentRouter);
+app.use('/content', contentRouter);
 
 // HANDLING UNKNOWN URLS
 app.use('*', (req, res) => {

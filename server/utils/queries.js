@@ -87,12 +87,20 @@ queries.selectEventAttendees =
   'SELECT * FROM usersandevents WHERE eventtitle=$1';
 
 // GRAB CONTENT OWNER
-queries.checkCommentOwner = '
-SELECT username FROM content JOIN users ON users.userid = content.userid WHERE contentid = $1'
+queries.checkCommentOwner = `
+SELECT username FROM content JOIN users ON users.userid = content.userid WHERE contentid = $1`
 
 // CREATING CONTENT
-queries.createContent = '
-INSERT INTO content (userid, eventid, content, contentdate, contenttime) VALUES ()'
+queries.createContent = `
+INSERT INTO content (userid, eventid, content, contentdate, contenttime) VALUES ($1, $2, $3, $4, $5)`
+
+// UPDATING CONTENT
+queries.updateContent = `
+UPDATE content SET content = $2 WHERE contentid=$1`
+
+// DELETING CONTENT
+queries.deleteContent = `
+DELETE FROM content WHERE contentid=$1`
 
 // CLEAR ALL TABLES & DATA
 queries.clearAll = `
