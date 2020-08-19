@@ -6,13 +6,13 @@ export default function EventsFeed(props) {
   //creates events for each event in feed
   if (props.events && Object.keys(props.events).length > 0) {
     events = props.events.map((event, index) => {
-      console.log(event, index);
       return (
         <Event
           {...event}
           userUpdate={props.userUpdate}
           key={`EventsFeed${index}`}
           // Functionality for removing events
+          user={props.user}
           id={index}
           setEvents={props.setEvents}
           events={props.events}

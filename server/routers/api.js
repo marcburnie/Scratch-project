@@ -26,7 +26,7 @@ router.get('/login/google',
     //   users: res.locals.allUserInfo,
     //   events: res.locals.allEventsInfo
     // };
-    return res.redirect('http://localhost:8080/')
+    return res.redirect('/') //WAS "http://localhost:8080/"
   });
 
 // REVISIT WEBSITE AFTER LEAVING, OR VISITING SOMEONE ELSE'S PROFILE PAGE

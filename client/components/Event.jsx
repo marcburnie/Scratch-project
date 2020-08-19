@@ -7,26 +7,32 @@ import { faLocationArrow } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 export default function Event(props) {
+  let eventOwner = props.events[props.id].eventownerusername;
+  let currentUser = props.user.username;
+
   return (
     <>
       <b className='hr anim'></b>
       <div className='event'>
         <Container>
-          <Button
-            variant='danger'
-            type='submit'
-            onClick={(e) => {
-              const updatedEvents = props.events;
-              const removedEvent = updatedEvents.splice(props.id, 1);
-              props.setEvents([...updatedEvents]);
+          {eventOwner === currentUser && (
+            <Button
+              variant='danger'
+              type='submit'
+              onClick={(e) => {
+                const updatedEvents = props.events;
+                const removedEvent = updatedEvents.splice(props.id, 1);
+                props.setEvents([...updatedEvents]);
+                console.log(removedEvent);
 
-              // Send delete http request here!
-              const { eventid } = removedEvent;
-              axios.delete(`/api/events/${eventid}`).then((res) => {});
-            }}
-          >
-            X
-          </Button>
+                // Send delete http request here!
+                /* const { eventid } = removedEvent;
+              axios.delete(`/api/events/${eventid}`).then((res) => {}); */
+              }}
+            >
+              X
+            </Button>
+          )}
           <Jumbotron fluid>
             <Container className='eventJumbotron'>
               <h1>{props.eventtitle}</h1>
@@ -34,7 +40,7 @@ export default function Event(props) {
                 {props.eventdate} - {props.starttime}
               </h4>
               <h4>
-                Location <FontAwesomeIcon icon={faLocationArrow} size='1x' /> :{' '}
+                Location <FontAwesomeIcon icon={faLocationArrow} size='1x' /> :
                 {props.eventlocation}
               </h4>
               <p>{props.eventdetails}</p>

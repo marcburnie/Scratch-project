@@ -54,6 +54,7 @@ export default function MainContainer() {
         profilephoto: user.profilephoto,
       },
     ];
+    event.eventownerusername = userName;
     const newEvents = [event].concat(events);
     setEvents(newEvents);
   }
@@ -67,6 +68,7 @@ export default function MainContainer() {
         lastname: user.lastname,
         profilephoto: user.profilephoto,
       });
+
       const newEvents = [event].concat(events);
       setEvents(newEvents);
     });
@@ -85,6 +87,7 @@ export default function MainContainer() {
           />
         </Container>
         <EventsFeed
+          user={user}
           events={events}
           setEvents={setEvents}
           userUpdate={handleUserPageChange}
