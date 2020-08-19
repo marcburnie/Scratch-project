@@ -1,4 +1,4 @@
-const db = require("../models/models.js"); // remove after testing
+const db = require('../models/models.js'); // remove after testing
 
 const queries = {};
 
@@ -20,7 +20,7 @@ SELECT * FROM usersandevents WHERE userid=$1
 `;
 
 // GET ALL USER'S PERSONAL INFO
-queries.userInfo = `SELECT * FROM users WHERE username=$1`; // const values = [req.query.id]
+queries.userInfo = 'SELECT * FROM users WHERE username=$1'; // const values = [req.query.id]
 
 // QUERY TO ADD USER
 queries.addUser = `
@@ -31,7 +31,7 @@ RETURNING username
 ;
 `;
 
-// QUERY FOR WHEN USER CREATES EVENT 
+// QUERY FOR WHEN USER CREATES EVENT
 queries.createEvent = `
 INSERT INTO events
   (eventtitle, eventdate, eventstarttime, eventendtime, eventlocation, eventdetails, eventownerid, eventownerusername, eventmessages)
@@ -39,6 +39,32 @@ VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
 RETURNING eventid
 ;
 `;
+
+// query for when creater deletes event
+queries.deleteEvent = `
+DELETE FROM events
+WHERE eventid=$1
+`;
+
+// QUERY FOR DELETING EVENT ON USER EVENT TABLE
+queries.deleteUserEvents = `
+DELETE FROM usersandevents
+WHERE eventid=$1
+`;
+
+// QUERY FOR WHEN USER UPDATES EVENTS
+queries.updateEvent = `
+UPDATE events
+SET eventtitle=$2,eventdate= $3, eventstarttime=$4, eventendtime= $5, eventlocation= $6, eventdetails=$7 
+WHERE eventid=$1
+`;
+
+// QUERY FOR WHEN USER TRIES TO MODIFY OR DELETE EVENT
+queries.checkEventOwner = `
+SELECT eventownerusername
+FROM events
+WHERE eventid=$1
+ `;
 
 // ADDS ALL CURRENT EVENTS TO USERSANDEVENTS
 queries.addNewEventToJoinTable = `
@@ -57,7 +83,38 @@ RETURNING eventid
 `;
 
 // GRAB EVENT'S ATTENDEES
-queries.selectEventAttendees = `SELECT * FROM usersandevents WHERE eventtitle=$1`;
+queries.selectEventAttendees =
+  'SELECT * FROM usersandevents WHERE eventtitle=$1';
+
+// GRAB CONTENT OWNER
+queries.checkCommentOwner = `
+SELECT username FROM content JOIN users ON users.userid = content.userid WHERE contentid = $1`
+
+// CREATING CONTENT
+queries.createContent = `
+INSERT INTO content (userid, eventid, content, contentdate, contenttime) VALUES ($1, $2, $3, $4, $5)`
+
+// UPDATING CONTENT
+queries.updateContent = `
+UPDATE content SET content = $2 WHERE contentid=$1`
+
+// DELETING CONTENT
+queries.deleteContent = `
+DELETE FROM content WHERE contentid=$1`
+
+// QUERY FOR DELETING ALL CONTENT RELATED TO AN EVENT
+queries.deleteEventContents = `
+DELETE FROM content
+WHERE eventid=$1
+`;
+
+//QUERY CONTENT TABLE AND RETURN LIST OF CONTENT JOINED WITH USER DATA
+queries.getContentEvents = `
+SELECT *
+FROM content
+LEFT JOIN users
+ON content.userid = users.userid
+`;
 
 // CLEAR ALL TABLES & DATA
 queries.clearAll = `

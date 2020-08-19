@@ -5,7 +5,6 @@ export default function Content({ content }) {
 
   const [cont, setCont] = useState(content);
   const [comment, setComment] = useState("")
-
   let messages = [];
   if (cont) {
     messages = cont.map((message, index) => {
@@ -16,7 +15,7 @@ export default function Content({ content }) {
           </div>
           <div className="message" key={`Content${index}`} >
             <p className="messageName">{message.firstname} {message.lastname}</p>
-            <p className="messageText">{message.text}</p>
+            <p className="messageText">{message.content}</p>
             <p className="messageTime">{message.time}</p>
           </div>
         </div>
