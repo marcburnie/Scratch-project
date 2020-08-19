@@ -32,11 +32,11 @@ app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 
 // SERVE UP STATIC FILES
-app.use('/dist', express.static(path.join(__dirname, '../dist')));
+app.use('/', express.static(path.join(__dirname, '../dist')));
 
 // SERVE INDEX.HTML ON THE ROUTE '/'
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/index.html'));
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 // API ROUTER

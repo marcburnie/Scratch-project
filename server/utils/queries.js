@@ -83,7 +83,8 @@ RETURNING eventid
 `;
 
 // GRAB EVENT'S ATTENDEES
-queries.selectEventAttendees = 'SELECT * FROM usersandevents WHERE eventtitle=$1';
+queries.selectEventAttendees =
+  'SELECT * FROM usersandevents WHERE eventtitle=$1';
 
 // GRAB CONTENT OWNER
 queries.checkCommentOwner = '

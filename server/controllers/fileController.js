@@ -6,18 +6,20 @@ const db = require('../models/models.js');
 
 const fileController = {};
 
-fileController.createUser = (req, res, next) => { // ADD BACK ASYNC IF YOU TURN ON THE TRY / CATCH / AWAIT
+fileController.createUser = (req, res, next) => {
+  // ADD BACK ASYNC IF YOU TURN ON THE TRY / CATCH / AWAIT
   const decoded = jwtDecode(res.locals.token);
 
-  const {
-    email, given_name, family_name, picture,
-  } = decoded;
+  const { email, given_name, family_name, picture } = decoded;
 
+  if (!family_name) family_name = ' ';
   const queryString1 = queries.userInfo;
   const queryValues1 = [email];
 
   const queryString2 = queries.addUser;
   const queryValues2 = [email, given_name, family_name, picture];
+  console.log('queryString2:', queryString2);
+  console.log('queryValues2:', queryValues2);
 
   db.query(queryString1, queryValues1)
     .then((data) => {
@@ -30,18 +32,27 @@ fileController.createUser = (req, res, next) => { // ADD BACK ASYNC IF YOU TURN 
             console.log('NEW USER: ', res.locals.username);
             return next();
           })
-          .catch((err) => next({
-            log: `Error occurred with queries.addUser OR fileController.createUser middleware: ${err}`,
-            message: { err: 'An error occurred with adding new user to the database.' },
-          }));
+          .catch((err) =>
+            next({
+              log: `Error occurred with queries.addUser OR fileController.createUser middleware: ${err}`,
+              message: {
+                err: 'An error occurred with adding new user to the database.',
+              },
+            })
+          );
       } else {
         return next();
       }
     })
-    .catch((err) => next({
-      log: `Error occurred with queries.userInfo OR fileController.createUser middleware: ${err}`,
-      message: { err: 'An error occurred when checking user information from database.' },
-    }));
+    .catch((err) =>
+      next({
+        log: `Error occurred with queries.userInfo OR fileController.createUser middleware: ${err}`,
+        message: {
+          err:
+            'An error occurred when checking user information from database.',
+        },
+      })
+    );
 };
 
 fileController.getUser = (req, res, next) => {
@@ -69,10 +80,15 @@ fileController.getUser = (req, res, next) => {
       res.locals.allUserInfo = data.rows[0];
       return next();
     })
-    .catch((err) => next({
-      log: `Error occurred with queries.userInfo OR fileController.getUser middleware: ${err}`,
-      message: { err: 'An error occured with SQL or server when retrieving user information.' },
-    }));
+    .catch((err) =>
+      next({
+        log: `Error occurred with queries.userInfo OR fileController.getUser middleware: ${err}`,
+        message: {
+          err:
+            'An error occured with SQL or server when retrieving user information.',
+        },
+      })
+    );
 };
 
 fileController.verifyUser = (req, res, next) => {
@@ -95,13 +111,12 @@ fileController.userCanModifyEvent = (req, res, next) => {
   // retrieve username from jwt
   const decoded = jwtDecode(req.cookies.user);
   const { email } = decoded;
-  
 
   // retrieve eventid from params
   const { eventid } = req.params;
   // query the SQL DB for the eventid in the events table
   db.query(queries.checkEventOwner, [eventid])
-  // check that the eventowner matches the userid
+    // check that the eventowner matches the userid
     .then((ownerUsername) => {
       if (ownerUsername.rows[0].eventownerusername === email) return next();
       return next({
