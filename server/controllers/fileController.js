@@ -18,18 +18,13 @@ fileController.createUser = (req, res, next) => {
 
   const queryString2 = queries.addUser;
   const queryValues2 = [email, given_name, family_name, picture];
-  console.log('queryString2:', queryString2);
-  console.log('queryValues2:', queryValues2);
 
   db.query(queryString1, queryValues1)
     .then((data) => {
-      console.log('whole data:', data);
       if (!data.rows.length) {
-        console.log('data.rows is empty');
         db.query(queryString2, queryValues2)
           .then((data) => {
             res.locals.username = data.rows[0].username; // is this superfluous?
-            console.log('NEW USER: ', res.locals.username);
             return next();
           })
           .catch((err) =>
@@ -76,7 +71,6 @@ fileController.getUser = (req, res, next) => {
   const queryValues = [targetUser]; // user will have to be verified Jen / Minchan
   db.query(queryString, queryValues)
     .then((data) => {
-      console.log('data.rows[0]', data.rows[0]);
       res.locals.allUserInfo = data.rows[0];
       return next();
     })
@@ -115,7 +109,6 @@ fileController.userCanModifyEvent = (req, res, next) => {
   // retrieve eventid from params
   const { eventid } = req.params;
   // query the SQL DB for the eventid in the events table
-  console.log(email, eventid);
   db.query(queries.checkEventOwner, [eventid])
     // check that the eventowner matches the userid
     .then((ownerUsername) => {
@@ -127,5 +120,27 @@ fileController.userCanModifyEvent = (req, res, next) => {
       });
     });
 };
+
+// middleware to check if the logged in user is also the content owner
+// input - jwt with username, req.params with commentid
+fileController.userCanModifyContent = (req, res, next) => {
+  // retrieve username from jwt
+  const decoded = jwtDecode(req.cookies.user);
+  const { email } = decoded;
+
+  // retrieve eventid from params
+  const { contentid } = req.params;
+  // query the SQL DB for the eventid in the events table
+  db.query(queries.checkCommentOwner, [contentid])
+    // check that the eventowner matches the userid
+    .then((ownerUsername) => {
+      if (ownerUsername.rows[0].username === email) return next();
+      return next({
+        log: 'Error occurred with fileController.userCanModifyContent',
+        code: 401,
+        message: { err: 'Unauthorized Access.' },
+      });
+    });
+}
 
 module.exports = fileController;

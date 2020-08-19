@@ -20,38 +20,25 @@ router.get('/login/google',
   loginController.afterConsent,
   cookieController.setSSIDCookie,
   fileController.createUser, // if username already exists, return next() => getUser // if not, create user in SQL database
-  // fileController.getUser,
-  // eventController.getFullEvents,
   (req, res) => {
-    // const responseObj = {
-    //   users: res.locals.allUserInfo,
-    //   events: res.locals.allEventsInfo
-    // };
     return res.redirect('/') //WAS "http://localhost:8080/"
   });
 
 // REVISIT WEBSITE AFTER LEAVING, OR VISITING SOMEONE ELSE'S PROFILE PAGE
-
 router.get('/info',
   cookieController.isLoggedIn, // this is really only is applicable for the same user
   fileController.getUser,
   eventController.allEvents,
   eventController.filterForUser,
-  // eventController.getFullEvents,   //ALL COMMENTED OUT OBSOLETE - KEPT IN CASE NEEDED LATER - REPLACED BY .allEvents and .filterForUser
-  // eventController.getAllAttendees,
-  // eventController.getUserDetail,
-  // eventController.consolidation,
   (req, res) => {
     const responseObj = {
       users: res.locals.allUserInfo,
       events: res.locals.allEventsInfo,
     };
-    console.log('responseObj: ', responseObj);
     return res.status(200).json(responseObj);
   });
 
 // LOGGING OUT
-
 router.use('/logout', // SWITCH THIS TO POST REQUEST!!
   cookieController.removeCookie,
   (req, res) => {
@@ -59,7 +46,6 @@ router.use('/logout', // SWITCH THIS TO POST REQUEST!!
   });
 
 // CREATE A NEW EVENT
-
 router.post('/create',
   fileController.verifyUser,
   fileController.getUser,
@@ -70,7 +56,6 @@ router.post('/create',
   });
 
 // ADD USER TO AN EXISTING EVENT
-
 router.post('/add',
   fileController.getUser,
   eventController.verifyAttendee,

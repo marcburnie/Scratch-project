@@ -52,3 +52,17 @@ CREATE TABLE usersandevents
   );
 
 SELECT setval('usersandevents_uselessid_seq', 1, false);
+
+CREATE TABLE content
+  (
+    "contentid" serial PRIMARY KEY,
+    "userid" bigint NOT NULL,
+    "eventid" bigint NOT NULL,
+    "content" varchar NOT NULL,
+    "contentdate" varchar NOT NULL,
+    "contenttime" varchar NOT NULL,
+    FOREIGN KEY ( userid ) REFERENCES users ( userid ),
+    FOREIGN KEY ( eventid ) REFERENCES events ( eventid )
+  );
+
+SELECT setval('content_contentid_seq', 1, false);
