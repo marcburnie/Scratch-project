@@ -100,11 +100,10 @@ fileController.userCanModifyEvent = (req, res, next) => {
   // retrieve eventid from params
   const { eventid } = req.params;
   // query the SQL DB for the eventid in the events table
-  console.log(email, eventid);
   db.query(queries.checkEventOwner, [eventid])
   // check that the eventowner matches the userid
     .then((ownerUsername) => {
-      if (ownerUsername === email) return next();
+      if (ownerUsername.rows[0].eventownerusername === email) return next();
       return next({
         log: 'Error occurred with fileController.userCanModifyEvent',
         code: 401,
@@ -112,5 +111,27 @@ fileController.userCanModifyEvent = (req, res, next) => {
       });
     });
 };
+
+// middleware to check if the logged in user is also the content owner
+// input - jwt with username, req.params with commentid
+fileController.userCanModifyContent = (req, res, next) => {
+  // retrieve username from jwt
+  const decoded = jwtDecode(req.cookies.user);
+  const { email } = decoded;
+
+  // retrieve eventid from params
+  const { contentid } = req.params;
+  // query the SQL DB for the eventid in the events table
+  db.query(queries.checkCommentOwner, [contentid])
+    // check that the eventowner matches the userid
+    .then((ownerUsername) => {
+      if (ownerUsername.rows[0].username === email) return next();
+      return next({
+        log: 'Error occurred with fileController.userCanModifyContent',
+        code: 401,
+        message: { err: 'Unauthorized Access.' },
+      });
+    });
+}
 
 module.exports = fileController;

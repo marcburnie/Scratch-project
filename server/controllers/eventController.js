@@ -291,7 +291,6 @@ eventController.updateEvent = (req, res, next) => {
     eventdetails,
   ];
 
-
   console.log('queryValues:', queryValues);
 
   db.query(queries.updateEvent, queryValues)

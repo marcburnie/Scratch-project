@@ -61,7 +61,7 @@ WHERE eventid=$1
 
 // QUERY FOR WHEN USER TRIES TO MODIFY OR DELETE EVENT
 queries.checkEventOwner = `
-SELECT * eventownusername
+SELECT eventownerusername
 FROM events
 WHERE eventid=$1
  `;
@@ -84,6 +84,14 @@ RETURNING eventid
 
 // GRAB EVENT'S ATTENDEES
 queries.selectEventAttendees = 'SELECT * FROM usersandevents WHERE eventtitle=$1';
+
+// GRAB CONTENT OWNER
+queries.checkCommentOwner = '
+SELECT username FROM content JOIN users ON users.userid = content.userid WHERE contentid = $1'
+
+// CREATING CONTENT
+queries.createContent = '
+INSERT INTO content (userid, eventid, content, contentdate, contenttime) VALUES ()'
 
 // CLEAR ALL TABLES & DATA
 queries.clearAll = `
