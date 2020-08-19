@@ -1,4 +1,4 @@
-const db = require("../models/models.js"); // remove after testing
+const db = require('../models/models.js'); // remove after testing
 
 const queries = {};
 
@@ -20,7 +20,7 @@ SELECT * FROM usersandevents WHERE userid=$1
 `;
 
 // GET ALL USER'S PERSONAL INFO
-queries.userInfo = `SELECT * FROM users WHERE username=$1`; // const values = [req.query.id]
+queries.userInfo = 'SELECT * FROM users WHERE username=$1'; // const values = [req.query.id]
 
 // QUERY TO ADD USER
 queries.addUser = `
@@ -31,7 +31,7 @@ RETURNING username
 ;
 `;
 
-// QUERY FOR WHEN USER CREATES EVENT 
+// QUERY FOR WHEN USER CREATES EVENT
 queries.createEvent = `
 INSERT INTO events
   (eventtitle, eventdate, eventstarttime, eventendtime, eventlocation, eventdetails, eventownerid, eventownerusername, eventmessages)
@@ -44,27 +44,27 @@ RETURNING eventid
 queries.deleteEvent = `
 DELETE FROM events
 WHERE eventid=$1
-`
+`;
 
+// QUERY FOR DELETING EVENT ON USER EVENT TABLE
 queries.deleteUserEvents = `
 DELETE FROM usersandevents
 WHERE eventid=$1
-`
+`;
 
 // QUERY FOR WHEN USER UPDATES EVENTS
 queries.updateEvent = `
 UPDATE events
-SET eventtitle=$2 , eventdate= $3, eventstarttime=$4, eventendtime= $5, eventlocation= $6, eventdetails=$7 
-WHERE eventid = $1
-`
-
+SET eventtitle=$2,eventdate= $3, eventstarttime=$4, eventendtime= $5, eventlocation= $6, eventdetails=$7 
+WHERE eventid=$1
+`;
 
 // QUERY FOR WHEN USER TRIES TO MODIFY OR DELETE EVENT
 queries.checkEventOwner = `
 SELECT * eventownusername
 FROM events
 WHERE eventid=$1
- `
+ `;
 
 // ADDS ALL CURRENT EVENTS TO USERSANDEVENTS
 queries.addNewEventToJoinTable = `
@@ -83,7 +83,7 @@ RETURNING eventid
 `;
 
 // GRAB EVENT'S ATTENDEES
-queries.selectEventAttendees = `SELECT * FROM usersandevents WHERE eventtitle=$1`;
+queries.selectEventAttendees = 'SELECT * FROM usersandevents WHERE eventtitle=$1';
 
 // CLEAR ALL TABLES & DATA
 queries.clearAll = `

@@ -17,8 +17,8 @@ router.delete('/:eventid',
   (req, res) => res.status(200).json({}));
 
 router.put('/:eventid',
-  cookieController.isLoggedIn,
-  fileController.userCanModifyEvent,
+  // cookieController.isLoggedIn,
+  // fileController.userCanModifyEvent,
   eventController.updateEvent,
   (req, res) => res.status(200).json({}));
 

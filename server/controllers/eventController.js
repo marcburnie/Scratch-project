@@ -267,7 +267,42 @@ eventController.filterForUser = (req, res, next) => {
 };
 
 eventController.updateEvent = (req, res, next) => {
-  next();
+  const { eventid } = req.params;
+
+  console.log(req.body)
+  const {
+    eventtitle,
+    eventdate,
+    eventstarttime,
+    eventlocation,
+    eventdetails,
+  } = req.body;
+
+  const eventendtime = eventstarttime;
+  console.log('THIS IS EVENT ID inside update Event: ', eventid);
+
+  const queryValues = [
+    eventid,
+    eventtitle,
+    eventdate,
+    eventstarttime,
+    eventendtime,
+    eventlocation,
+    eventdetails,
+  ];
+
+
+  console.log('queryValues:', queryValues);
+
+  db.query(queries.updateEvent, queryValues)
+    .then((resp) => {
+      console.log('SUCCESSFUL EVENT UPDATE: ', resp);
+      return next();
+    })
+    .catch((err) => next({
+      log: `Error occurred with eventController.updateEvent middleware: ${err}`,
+      message: { err: 'An error occured with SQL when updating event information.' },
+    }));
 };
 
 eventController.deleteEvent = (req, res, next) => {
