@@ -40,6 +40,32 @@ RETURNING eventid
 ;
 `;
 
+// query for when creater deletes event
+queries.deleteEvent = `
+DELETE FROM events
+WHERE eventid=$1
+`
+
+queries.deleteUserEvents = `
+DELETE FROM usersandevents
+WHERE eventid=$1
+`
+
+// QUERY FOR WHEN USER UPDATES EVENTS
+queries.updateEvent = `
+UPDATE events
+SET eventtitle=$2 , eventdate= $3, eventstarttime=$4, eventendtime= $5, eventlocation= $6, eventdetails=$7 
+WHERE eventid = $1
+`
+
+
+// QUERY FOR WHEN USER TRIES TO MODIFY OR DELETE EVENT
+queries.checkEventOwner = `
+SELECT * eventownusername
+FROM events
+WHERE eventid=$1
+ `
+
 // ADDS ALL CURRENT EVENTS TO USERSANDEVENTS
 queries.addNewEventToJoinTable = `
 INSERT INTO usersandevents (userid, username, eventid, eventtitle, eventdate, eventstarttime, eventendtime, eventdetails, eventlocation)

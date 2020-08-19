@@ -89,11 +89,28 @@ fileController.verifyUser = (req, res, next) => {
   });
 };
 
-//middleware to check if the logged in user is also the event owner
-//input - jwt with username, req.params with eventid
+// middleware to check if the logged in user is also the event owner
+// input - jwt with username, req.params with eventid
 fileController.userCanModifyEvent = (req, res, next) => {
-  next();
-}
+  // retrieve username from jwt
+  const decoded = jwtDecode(req.cookies.user);
+  const { email } = decoded;
+  
 
+  // retrieve eventid from params
+  const { eventid } = req.params;
+  // query the SQL DB for the eventid in the events table
+  console.log(email, eventid);
+  db.query(queries.checkEventOwner, [eventid])
+  // check that the eventowner matches the userid
+    .then((ownerUsername) => {
+      if (ownerUsername === email) return next();
+      return next({
+        log: 'Error occurred with fileController.userCanModifyEvent',
+        code: 401,
+        message: { err: 'Unauthorized Access.' },
+      });
+    });
+};
 
 module.exports = fileController;
