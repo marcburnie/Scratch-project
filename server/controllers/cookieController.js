@@ -12,7 +12,7 @@ cookieController.isLoggedIn = (req, res, next) => {
     return next({
       log: `User is not logged in`,
       code: 401,
-      message: { err: "User is not logged in." },
+      message: { err: 'User is not logged in.' },
     });
   }
 };
@@ -20,6 +20,6 @@ cookieController.isLoggedIn = (req, res, next) => {
 cookieController.removeCookie = (req, res, next) => {
   res.clearCookie('user');
   return next();
-}
+};
 
 module.exports = cookieController;
