@@ -31,7 +31,8 @@ export default function MainContainer() {
     setUserName(username);
   }
   //handles the state change and posts to database on event creation
-  function handleCreateEvent(event) {
+  function handleCreateEvent(event, newEvent, eventIndex) {
+    if (!newEvent) return console.log('NEW EVENT');
     let {
       eventtitle,
       eventlocation,
@@ -56,8 +57,9 @@ export default function MainContainer() {
     ];
     event.eventownerusername = userName;
     const newEvents = [event].concat(events);
-    setEvents(newEvents);
+    return setEvents(newEvents);
   }
+
   //handles the state change and posts to database on search event add
   function handleSearchEvent(event) {
     // ADD
@@ -87,6 +89,7 @@ export default function MainContainer() {
           />
         </Container>
         <EventsFeed
+          addEvent={handleCreateEvent}
           user={user}
           events={events}
           setEvents={setEvents}

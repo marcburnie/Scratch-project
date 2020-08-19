@@ -4,6 +4,7 @@ import Content from './Content.jsx';
 import { ListGroup, Container, Row, Jumbotron, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow } from '@fortawesome/free-solid-svg-icons';
+import CreateEvent from './CreateEvent.jsx';
 import axios from 'axios';
 
 export default function Event(props) {
@@ -16,22 +17,30 @@ export default function Event(props) {
       <div className='event'>
         <Container>
           {eventOwner === currentUser && (
-            <Button
-              variant='danger'
-              type='submit'
-              onClick={(e) => {
-                const updatedEvents = props.events;
-                const removedEvent = updatedEvents.splice(props.id, 1);
-                props.setEvents([...updatedEvents]);
-                console.log(removedEvent);
+            <div className='event-owner-buttons'>
+              <CreateEvent
+                eventIndex={props.id}
+                addEvent={props.addEvent}
+                updatingEvent={'updatingEvent'}
+              />
 
-                // Send delete http request here!
-                /* const { eventid } = removedEvent;
+              <Button
+                variant='danger'
+                type='submit'
+                onClick={(e) => {
+                  const updatedEvents = props.events;
+                  const removedEvent = updatedEvents.splice(props.id, 1);
+                  props.setEvents([...updatedEvents]);
+                  console.log(removedEvent);
+
+                  // Send delete http request here!
+                  /* const { eventid } = removedEvent;
               axios.delete(`/api/events/${eventid}`).then((res) => {}); */
-              }}
-            >
-              X
-            </Button>
+                }}
+              >
+                X
+              </Button>
+            </div>
           )}
           <Jumbotron fluid>
             <Container className='eventJumbotron'>

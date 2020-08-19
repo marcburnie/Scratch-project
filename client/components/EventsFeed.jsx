@@ -12,6 +12,7 @@ export default function EventsFeed(props) {
           userUpdate={props.userUpdate}
           key={`EventsFeed${index}`}
           // Functionality for removing events
+          addEvent={props.addEvent}
           user={props.user}
           id={index}
           setEvents={props.setEvents}

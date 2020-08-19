@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 import DateTimePicker from 'react-datetime-picker';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faSearchPlus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import { Modal, Button, Form, Card } from 'react-bootstrap';
 
-export default function CreateEvent({ addEvent }) {
+export default function CreateEvent({ addEvent, updatingEvent, eventIndex }) {
   /* Form data */
   const initialFormData = Object.freeze({
-    eventtitle: "",
-    eventlocation: "",
-    eventdetails: "",
+    eventtitle: '',
+    eventlocation: '',
+    eventdetails: '',
   });
 
   const [formData, updateFormData] = React.useState(initialFormData);
@@ -22,63 +22,93 @@ export default function CreateEvent({ addEvent }) {
     updateFormData({
       ...formData,
       // Trimming any whitespace
-      [e.target.name]: e.target.value.trim()
+      [e.target.name]: e.target.value.trim(),
     });
   };
   //handles submit event - create date and time and append to the event object
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const handleSubmit = (e, newEvent) => {
+    e.preventDefault();
     const eventdate = dateTime.toDateString();
     let time = dateTime.toTimeString();
-    let eventstarttime = time.split(" ")[0];
+    let eventstarttime = time.split(' ')[0];
     // ... submit to API or something
-    addEvent({ ...formData, eventdate, eventstarttime });
+    addEvent({ ...formData, eventdate, eventstarttime }, newEvent, eventIndex);
+
     handleClose();
   };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-
+  let newEvent = true;
+  let buttonTitle = 'Add Event';
+  let formTitle = 'Create New Event';
+  let cardClass = 'cardContainer';
+  if (updatingEvent) {
+    newEvent = false;
+    buttonTitle = '';
+    formTitle = 'Update Event';
+    cardClass = 'cardContainer-small';
+  }
   return (
     <div>
-
-      <div className='cardContainer' onClick={handleShow}>
-        <FontAwesomeIcon className="mx-auto faPlus" icon={faPlus} size="4x" />
-        <p>Add Event</p>
+      <div className={cardClass} onClick={handleShow}>
+        <FontAwesomeIcon className='mx-auto faPlus' icon={faPlus} size='4px' />
+        <p>{buttonTitle}</p>
       </div>
 
       <Modal show={show} onHide={handleClose} animation={true}>
         <Modal.Header closeButton>
-          <Modal.Title>Create New Event</Modal.Title>
+          <Modal.Title>{formTitle}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
           <Form>
-            <Form.Group controlId="formEventTitle">
+            <Form.Group controlId='formEventTitle'>
               <Form.Label>Event Title</Form.Label>
-              <Form.Control name='eventtitle' onChange={handleChange} required type="text" placeholder="Enter title" />
-            </Form.Group>
-
-            <Form.Group controlId="formEventLocation">
-              <Form.Label>Location</Form.Label>
-              <Form.Control name='eventlocation' onChange={handleChange} required type="text" placeholder="Enter location" />
-            </Form.Group>
-
-            <Form.Group controlId="formEventDescription">
-              <Form.Label>Event Description</Form.Label>
-              <Form.Control name='eventdetails' onChange={handleChange} required as="textarea" placeholder="Enter description" />
-            </Form.Group>
-
-            <Form.Group controlId="formEventDescription">
-              <Form.Label>Start Date & Time</Form.Label>
-              <DateTimePicker
-                onChange={onChange}
-                value={dateTime}
+              <Form.Control
+                name='eventtitle'
+                onChange={handleChange}
+                required
+                type='text'
+                placeholder='Enter title'
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit" onClick={(e) => { handleSubmit(e) }}>
+            <Form.Group controlId='formEventLocation'>
+              <Form.Label>Location</Form.Label>
+              <Form.Control
+                name='eventlocation'
+                onChange={handleChange}
+                required
+                type='text'
+                placeholder='Enter location'
+              />
+            </Form.Group>
+
+            <Form.Group controlId='formEventDescription'>
+              <Form.Label>Event Description</Form.Label>
+              <Form.Control
+                name='eventdetails'
+                onChange={handleChange}
+                required
+                as='textarea'
+                placeholder='Enter description'
+              />
+            </Form.Group>
+
+            <Form.Group controlId='formEventDescription'>
+              <Form.Label>Start Date & Time</Form.Label>
+              <DateTimePicker onChange={onChange} value={dateTime} />
+            </Form.Group>
+
+            <Button
+              variant='primary'
+              type='submit'
+              onClick={(e) => {
+                handleSubmit(e, newEvent);
+              }}
+            >
               Submit
             </Button>
           </Form>
