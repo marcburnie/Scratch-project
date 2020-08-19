@@ -63,10 +63,12 @@ export default function CreateEvent ({ addEvent }) {
 							<Form.Label>Location</Form.Label>
 							{/* <Form.Control name='eventlocation' onChange={handleChange} required type="text" placeholder="Enter location" /> */}
 							<GoogleComponent
-								apiKey={'AIzaSyBocV_s8PP94rcQYj51LXNbP957tHl9kxo'}
+								apiKey={'AIzaSyC-6SFtX77gILuoHiEaoyuR9cwCB3KVcKY'}
 								language={'en'}
-								country={'country:us'}
+								country={'country:in|country:us'}
 								coordinates={true}
+								locationBoxStyle={'custom-style'}
+								locationListStyle={'custom-style-list'}
 								name='eventlocation'
 								onChange={handleChange} />
 						</Form.Group>

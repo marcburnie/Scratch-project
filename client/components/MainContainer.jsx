@@ -34,6 +34,7 @@ export default function MainContainer () {
 	}
 	//handles the state change and posts to database on event creation
 	function handleCreateEvent (event) {
+		console.log('event in here', event)
 		let { eventtitle, eventlocation, eventdate, eventstarttime, eventdetails } = event;
 		axios.post(`/api/create?userName=${userName}`, { eventtitle, eventlocation, eventdate, eventstarttime, eventdetails })
 			.then((res) => {
