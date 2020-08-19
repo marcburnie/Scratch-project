@@ -23,6 +23,7 @@ export default function MainContainer() {
       let eventsInfo = res.data.events;
       setUser(userInfo);
       setEvents(eventsInfo);
+				console.log("Events Info:", eventsInfo)
       setUserName(res.data.users.username);
     });
   }, []);

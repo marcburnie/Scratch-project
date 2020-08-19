@@ -5,8 +5,6 @@ const path = require('path');
 const fileController = require('../controllers/fileController');
 const contentController = require('../controllers/contentController');
 const cookieController = require('../controllers/cookieController');
-// const eventController = require('../controllers/eventController');
-// const loginController = require('../controllers/loginController');
 
 router.post('/',
   fileController.verifyUser,

@@ -16,11 +16,9 @@ contentController.createContent = (req, res, next) => {
   const queryValues = [userid, eventid, content, contentdate, contenttime];
   db.query(queryString, queryValues)
     .then((data) => {
-      console.log('>>> contentController.createContent DATA ', data);
       return next();
     })
     .catch((err) => {
-      console.log('>>> eventController.createEvent ERR ', err);
       return next({
         log: `Error occurred with queries.createContent OR contentController.createCotent middleware: ${err}`,
         message: { err: 'An error occured with SQL when creating content.' },
@@ -35,7 +33,6 @@ contentController.updateContent = (req, res, next) => {
 
   db.query(queries.updateContent, queryValues)
     .then((resp) => {
-      console.log('successful content delete, : ', resp);
       return next();
     })
     .catch((err) => next({
@@ -49,7 +46,6 @@ contentController.deleteContent = (req, res, next) => {
 
   db.query(queries.deleteContent, [contentid])
     .then((resp) => {
-      console.log('successful content delete, : ', resp);
       return next();
     })
     .catch((err) => next({

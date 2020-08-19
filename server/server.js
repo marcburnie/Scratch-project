@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 
-
 // added for multimedia handling
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
@@ -28,7 +27,7 @@ app.use(morgan('dev'));
 
 // BODY PARSERS & COOKIE PARSER
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // SERVE UP STATIC FILES
@@ -55,6 +54,6 @@ app.use((err, req, res, next) => {
   res.status(401).send(err.message); // WHAT IS FRONT-END EXPECTING? JSON OR STRING?
 });
 
-//app.listen(3000); //listens on port 3000 -> http://localhost:3000/
+// app.listen(3000); //listens on port 3000 -> http://localhost:3000/
 app.listen(process.env.PORT || 3000);
 module.exports = app;

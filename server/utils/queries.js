@@ -102,6 +102,20 @@ UPDATE content SET content = $2 WHERE contentid=$1`
 queries.deleteContent = `
 DELETE FROM content WHERE contentid=$1`
 
+// QUERY FOR DELETING ALL CONTENT RELATED TO AN EVENT
+queries.deleteEventContents = `
+DELETE FROM content
+WHERE eventid=$1
+`;
+
+//QUERY CONTENT TABLE AND RETURN LIST OF CONTENT JOINED WITH USER DATA
+queries.getContentEvents = `
+SELECT *
+FROM content
+LEFT JOIN users
+ON content.userid = users.userid
+`;
+
 // CLEAR ALL TABLES & DATA
 queries.clearAll = `
 DROP TABLE usersandevents;

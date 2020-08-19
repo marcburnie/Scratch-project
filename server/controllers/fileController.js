@@ -18,18 +18,13 @@ fileController.createUser = (req, res, next) => {
 
   const queryString2 = queries.addUser;
   const queryValues2 = [email, given_name, family_name, picture];
-  console.log('queryString2:', queryString2);
-  console.log('queryValues2:', queryValues2);
 
   db.query(queryString1, queryValues1)
     .then((data) => {
-      console.log('whole data:', data);
       if (!data.rows.length) {
-        console.log('data.rows is empty');
         db.query(queryString2, queryValues2)
           .then((data) => {
             res.locals.username = data.rows[0].username; // is this superfluous?
-            console.log('NEW USER: ', res.locals.username);
             return next();
           })
           .catch((err) =>
@@ -76,7 +71,6 @@ fileController.getUser = (req, res, next) => {
   const queryValues = [targetUser]; // user will have to be verified Jen / Minchan
   db.query(queryString, queryValues)
     .then((data) => {
-      console.log('data.rows[0]', data.rows[0]);
       res.locals.allUserInfo = data.rows[0];
       return next();
     })

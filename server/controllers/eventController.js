@@ -1,67 +1,8 @@
 const db = require('../models/models');
 const queries = require('../utils/queries');
-// const { delete } = require("../routers/api");
+
 const eventController = {};
 
-// eventController.getFullEvents = (req, res, next) => {   //FLAGGED FOR DELETION
-
-//   const queryString = queries.userEvents;
-//   const queryValues = [res.locals.allUserInfo.userid]; //user will have to be verified Jen / Minchan
-//   db.query(queryString, queryValues)
-//     .then(data => {
-//       if (!data.rows[0]) {
-//         res.locals.allEventsInfo = [];
-//       } else {
-//         res.locals.allEventsInfo = data.rows;
-//       }
-//       return next();
-//     })
-//     .catch(err => {
-//       return next({
-//         log: `Error occurred with queries.userEvents OR eventController.getFullEvents middleware: ${err}`,
-//         message: { err: "An error occured with SQL when retrieving events information." },
-//       });
-//     })
-// };
-
-// eventController.getAllAttendees = async (req, res, next) => { //FLAGGED FOR DELETION
-//   const allEvents = res.locals.allEventsInfo; // ALL EVENTS FOR THAT USER
-//   const arrayOfEventTitles = []; // ['marc birthday', 'minchan birthday' ... ]
-//   for (const event of allEvents) {
-//     arrayOfEventTitles.push(event.eventtitle);
-//   }
-
-//   res.locals.attendees = [];
-//   const queryString = queries.selectEventAttendees;
-
-//   const promises = [];
-
-//   for (let i = 0; i < arrayOfEventTitles.length; i++) {
-//     const result = new Promise((resolve, reject) => {
-//       try {
-//         const queryResult = db.query(queryString, [arrayOfEventTitles[i]]);
-//         return resolve(queryResult)
-//       } catch (err) {
-//         return reject(err);
-//       }
-//     })
-//     promises.push(result);
-//   }
-
-//   const resolvedPromises = Promise.all(promises)
-//     .then(data => {
-//       for (let i = 0; i < data.length; i++) {
-//         const container = [];
-//         data[i].rows.forEach(obj => {
-//           container.push(obj.username);
-//         })
-//         res.locals.attendees.push(container);
-//       }
-//       return next();
-//     })
-//     .catch(err => console.log('promise.all err: ', err));
-
-// }
 
 eventController.createEvent = (req, res, next) => {
   const { userid, username } = res.locals.allUserInfo;
@@ -71,16 +12,14 @@ eventController.createEvent = (req, res, next) => {
   const {
     eventtitle, eventlocation, eventdate, eventstarttime, eventdetails,
   } = req.body;
-  console.log('eventController.createEvent ', req.body);
+
   const queryValues = [eventtitle, eventdate, eventstarttime, eventstarttime, eventlocation, eventdetails, userid, username, '{}'];
   db.query(queryString, queryValues)
     .then((data) => {
-      console.log('>>> eventController.createEvent DATA ', data);
       res.locals.eventID = data.rows[0];
       return next();
     })
     .catch((err) => {
-      console.log('>>> eventController.createEvent ERR ', err);
       return next({
         log: `Error occurred with queries.createEvent OR eventController.createEvent middleware: ${err}`,
         message: { err: 'An error occured with SQL when creating event.' },
@@ -98,7 +37,6 @@ eventController.addNewEventToJoinTable = (req, res, next) => {
       return next();
     })
     .catch((err) => {
-      console.log('>>> eventController.addNewEventToJoinTable ERR', err);
       return next({
         log: `Error occurred with queries.addtoUsersAndEvents OR eventController.addNewEventToJoinTable middleware: ${err}`,
         message: { err: 'An error occured with SQL when adding to addtoUsersAndEvents table.' },
@@ -116,12 +54,10 @@ eventController.verifyAttendee = (req, res, next) => {
 
   db.query(queryString, queryValues)
     .then((data) => {
-      console.log('data: ', data);
       const attendees = [];
       for (const attendeeObj of data.rows) {
         attendees.push(attendeeObj.username);
       }
-      console.log(attendees);
       if (attendees.includes(username)) {
         return next({
           log: 'Error: User is already an attendee',
@@ -165,7 +101,6 @@ eventController.addAttendee = (req, res, next) => {
 
   db.query(queryString, queryValues)
     .then((data) => {
-      console.log('data from addAttendee: ', data);
       return next();
     })
     .catch((err) => next({
@@ -183,16 +118,17 @@ eventController.allEvents = (req, res, next) => {
         res.locals.allEventsInfo = [];
       } else {
         // then grabs all the attendees fromt he user and events table joined with the user table
-        const eventAndUserDataQueryString = queries.getAttendeeEvents;
-        db.query(eventAndUserDataQueryString).then((eventAndUserData) => {
-          // goes through the table and creates an attendees array with the list of user data
-          const mergedTable = data.rows.map((e) => {
-            const attendees = eventAndUserData.rows.filter((entry) => entry.eventid == e.eventid);
-            e.attendees = attendees;
-            return e;
+        db.query(queries.getAttendeeEvents).then((eventAndUserData) => {
+          db.query(queries.getContentEvents).then((eventAndContentData) => {
+            // goes through the table and creates an attendees array with the list of user data
+            const mergedTable = data.rows.map((e) => {
+              e.attendees = eventAndUserData.rows.filter((entry) => entry.eventid == e.eventid);
+              e.content = eventAndContentData.rows.filter((entry) => entry.eventid == e.eventid);
+              return e;
+            });
+            res.locals.allEventsInfo = mergedTable;
+            return next();
           });
-          res.locals.allEventsInfo = mergedTable;
-          return next();
         });
       }
     })
@@ -201,61 +137,6 @@ eventController.allEvents = (req, res, next) => {
       message: { err: 'An error occured with SQL when retrieving all events information.' },
     }));
 };
-
-// eventController.getUserDetail = (req, res, next) => {  //FLAGGED FOR DELETION
-
-//   const countObj = []; // each element should how many attendees are for each event in succession;
-//   res.locals.attendees.forEach(arr => {
-//     countObj.push(arr.length);
-//   })
-
-//   const allUsernames = res.locals.attendees.flat(Infinity);
-//   console.log('FLATTENED USERNAMES', allUsernames);
-
-//   const queryString = queries.userInfo;
-
-//   const promises = [];
-
-//   for (let i = 0; i < allUsernames.length; i++) {
-//     const result = new Promise((resolve, reject) => {
-//       try {
-//         const queryResult = db.query(queryString, [allUsernames[i]]);
-//         return resolve(queryResult)
-//       } catch (err) {
-//         return reject(err);
-//       }
-//     })
-//     promises.push(result);
-//   }
-
-//   const resolvedPromises = Promise.all(promises)
-//     .then(data => {
-
-//       res.locals.userDetail = [];
-
-//       for (let i = 0; i < countObj.length; i += 1) {
-//         let turns = countObj[i]
-//         let count = 0;
-//         const container = [];
-//         while (count < turns) {
-//           const minchan = data.shift()
-//           container.push(minchan.rows[0]);
-//           count++;
-//         }
-//         res.locals.userDetail.push(container);
-//       }
-//       return next();
-//     })
-//     .catch(err => console.log('promise.all err: ', err));
-// }
-
-// eventController.consolidation = (req, res, next) => { //FLAGGED FOR DELETION
-//   const consolidatedEvents = { ...res.locals.allEventsInfo };
-//   res.locals.userDetail.forEach((arr, i) => {
-//     consolidatedEvents[i].attendees = arr;
-//   })
-//   return next();
-// }
 
 // filters out all events to only return the ones that the current user is attending
 eventController.filterForUser = (req, res, next) => {
@@ -268,8 +149,6 @@ eventController.filterForUser = (req, res, next) => {
 
 eventController.updateEvent = (req, res, next) => {
   const { eventid } = req.params;
-
-  console.log(req.body)
   const {
     eventtitle,
     eventdate,
@@ -279,7 +158,6 @@ eventController.updateEvent = (req, res, next) => {
   } = req.body;
 
   const eventendtime = eventstarttime;
-  console.log('THIS IS EVENT ID inside update Event: ', eventid);
 
   const queryValues = [
     eventid,
@@ -291,11 +169,8 @@ eventController.updateEvent = (req, res, next) => {
     eventdetails,
   ];
 
-  console.log('queryValues:', queryValues);
-
   db.query(queries.updateEvent, queryValues)
     .then((resp) => {
-      console.log('SUCCESSFUL EVENT UPDATE: ', resp);
       return next();
     })
     .catch((err) => next({
@@ -306,19 +181,17 @@ eventController.updateEvent = (req, res, next) => {
 
 eventController.deleteEvent = (req, res, next) => {
   const { eventid } = req.params;
-  console.log('THIS IS EVENT ID: ', eventid);
 
-  db.query(queries.deleteUserEvents, [eventid])
+  db.query(queries.deleteUserEvents, [eventid]) //Disassociates event from users
     .then((resp) => {
-      console.log('successful delete, : ', resp);
-
-      db.query(queries.deleteEvent, [eventid])
+      db.query(queries.deleteEventContents, [eventid]) //Deletes all associated content with event
         .then((resp) => {
-          console.log('successful delete, : ', resp);
-          return next();
+          db.query(queries.deleteEvent, [eventid])  //Deletes events itself
+            .then((resp) => {
+              return next();
+            });
         });
     })
-
     .catch((err) => next({
       log: `Error occurred with eventController.deleteEvent middleware: ${err}`,
       message: { err: 'An error occured with SQL when deleting event information.' },
