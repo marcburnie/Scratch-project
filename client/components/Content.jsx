@@ -75,7 +75,7 @@ export default function Content({ user, content, eventid }) {
     console.log(fileSelected, fileSelected.name);
     const formData = new FormData();
     formData.append('image', fileSelected, fileSelected.name);
-    const URL = '/images';
+    const URL = '/content';
     axios
       .post(URL, formData, {
         headers: {
