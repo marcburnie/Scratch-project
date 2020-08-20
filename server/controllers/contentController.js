@@ -22,8 +22,8 @@ app.use(cors());
 app.use(morgan('dev'));
 
 contentController.createContent = (req, res, next) => {
-	// const { userid } = res.locals.allUserInfo;
-	let userid = 1;
+	const { userid } = res.locals.allUserInfo;
+
 	const { eventid } = req.body;
 	let content;
 
