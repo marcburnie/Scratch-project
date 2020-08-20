@@ -33,7 +33,6 @@ export default function CreateEvent({ addEvent, updatingEvent, eventIndex }) {
   };
   //handles submit event - create date and time and append to the event object
   const handleSubmit = (e, newEvent) => {
-    e.preventDefault();
     console.log(formData);
     const eventdate = dateTime.toDateString();
     let time = dateTime.toTimeString();
