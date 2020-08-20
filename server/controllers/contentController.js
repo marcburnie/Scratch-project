@@ -51,7 +51,9 @@ contentController.createContent = (req, res, next) => {
     console.log('QueryValues:', queryValues);
     db.query(queryString, queryValues)
       .then((data) => {
-        res.locals.createdContent = content;
+        console.log('++++++++++++++++++++++++++++++++++++++++++++');
+        console.log('Returned object:', data.rows[0]);
+        res.locals.createdContent = data.rows[0];
         return next();
       })
       .catch((err) => {

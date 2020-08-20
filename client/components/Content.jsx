@@ -73,8 +73,9 @@ export default function Content({ user, content, eventid }) {
         newMessage.firstname = user.firstname;
         newMessage.lastname = user.lastname;
         setCont([...cont, newMessage]);
-        // document.getElementsByName('comment-form')[0].reset();
+        document.getElementsByName('comment-form')[0].reset();
       });
+    setComment('');
   }
 
   const fileUploadHandler = (e) => {
@@ -96,7 +97,7 @@ export default function Content({ user, content, eventid }) {
       .then((response) => {
         //handle success
         const newMessage = {
-          content: response.data,
+          content: response.data.content,
           profilephoto: user.profilephoto,
           firstname: user.firstname,
           lastname: user.lastname,
@@ -121,7 +122,7 @@ export default function Content({ user, content, eventid }) {
           type='file'
           onChange={(e) => setFileSelected(e.target.files[0])}
         />
-        {/* <button onClick={(e) => fileUploadHandler(e)}>Upload</button> */}
+
         <Button
           variant='primary'
           type='submit'
