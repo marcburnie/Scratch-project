@@ -57,7 +57,6 @@ fileController.getUser = (req, res, next) => {
   } else {
     decoded = jwtDecode(res.locals.token);
   }
-
   const { email } = decoded;
 
   let targetUser;
@@ -87,8 +86,9 @@ fileController.getUser = (req, res, next) => {
 
 fileController.verifyUser = (req, res, next) => {
   const decoded = jwtDecode(req.cookies.user);
-  const { email } = decoded;
 
+  const { email } = decoded;
+  console.log('username:', email);
   if (email == req.query.userName) {
     return next();
   }
@@ -141,6 +141,6 @@ fileController.userCanModifyContent = (req, res, next) => {
         message: { err: 'Unauthorized Access.' },
       });
     });
-}
+};
 
 module.exports = fileController;

@@ -118,12 +118,14 @@ body {
 
 .events {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
 }
 
 .event {
   border: 1px solid gainsboro;
-  flex: 1 0 50%;
+  flex: 1 0 33%;
+  min-width: 33%;
   margin: 1em;
   padding: 1em;
   box-shadow: 1px 1px 1px 1px gainsboro;
@@ -151,6 +153,9 @@ body {
   display: flex;
   justify-content: flex-end;
 }
+
+
+
 
 /* EventAttendees.jsx */
 
@@ -183,6 +188,7 @@ body {
 .attendees {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   margin-bottom: 20px;
 }
 
@@ -232,7 +238,7 @@ body {
 }
 
 .messages {
-  max-height: 200px;
+  max-height: 400px;
   overflow: scroll;
 }
 
@@ -248,6 +254,12 @@ body {
 .message {
   padding: 10px;
 }
+
+.msg-btns{
+  display:flex;
+ justify-content:space-around;
+}
+
 
 /* rainbow divider */
 

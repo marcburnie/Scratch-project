@@ -16,7 +16,7 @@ const contentRouter = require('./routers/content');
 
 // enable files upload
 app.use(fileUpload({
-  createParentPath: true,
+	createParentPath: true,
 }));
 
 // PARSERS AND MULTIMEDIA HANDLERS
@@ -32,10 +32,11 @@ app.use(cookieParser());
 
 // SERVE UP STATIC FILES
 app.use('/', express.static(path.join(__dirname, '../dist')));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // SERVE INDEX.HTML ON THE ROUTE '/'
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/index.html'));
+	res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 // API ROUTER
@@ -46,12 +47,12 @@ app.use('/content', contentRouter);
 
 // HANDLING UNKNOWN URLS
 app.use('*', (req, res) => {
-  res.status(404).send('URL path not found');
+	res.status(404).send('URL path not found');
 });
 
 // ERROR HANDLER
 app.use((err, req, res, next) => {
-  res.status(401).send(err.message); // WHAT IS FRONT-END EXPECTING? JSON OR STRING?
+	res.status(401).send(err.message); // WHAT IS FRONT-END EXPECTING? JSON OR STRING?
 });
 
 // app.listen(3000); //listens on port 3000 -> http://localhost:3000/

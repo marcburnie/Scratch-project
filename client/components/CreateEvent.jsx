@@ -33,7 +33,6 @@ export default function CreateEvent({ addEvent, updatingEvent, eventIndex }) {
   };
   //handles submit event - create date and time and append to the event object
   const handleSubmit = (e, newEvent) => {
-    e.preventDefault();
     console.log(formData);
     const eventdate = dateTime.toDateString();
     let time = dateTime.toTimeString();
@@ -56,13 +55,14 @@ export default function CreateEvent({ addEvent, updatingEvent, eventIndex }) {
     formTitle = 'Update Event';
     cardClass = 'cardContainer-small';
   }
+
   return (
     <div>
       <div className={cardClass} onClick={handleShow}>
-        <FontAwesomeIcon className='mx-auto faPlus' icon={faPlus} />
+      <i className="fas fa-edit" ></i>
         <p>{buttonTitle}</p>
       </div>
-
+      
       <Modal show={show} onHide={handleClose} animation={true}>
         <Modal.Header closeButton>
           <Modal.Title>{formTitle}</Modal.Title>
@@ -83,15 +83,9 @@ export default function CreateEvent({ addEvent, updatingEvent, eventIndex }) {
 
             <Form.Group controlId='formEventLocation'>
               <Form.Label>Location</Form.Label>
-              {/* <Form.Control
-                name='eventlocation'
-                onChange={handleChange}
-                required
-                type='text'
-                placeholder='Enter location'
-              /> */}
+
               <GoogleComponent
-                apiKey={'AIzaSyBocV_s8PP94rcQYj51LXNbP957tHl9kxo'}
+                apiKey={process.env.REACT_APP_PLACES_API}
                 language={'en'}
                 country={'country:us'}
                 coordinates={true}
