@@ -117,7 +117,7 @@ export default function CreateEvent({ addEvent, updatingEvent, eventIndex }) {
             </Form.Group>
 
             <Button
-              variant='primary'
+              variant='info'
               type='submit'
               onClick={(e) => {
                 handleSubmit(e, newEvent);

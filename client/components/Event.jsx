@@ -24,8 +24,8 @@ export default function Event(props) {
                 updatingEvent={'updatingEvent'}
               />
 
-              <Button
-                variant='danger'
+              <Button                
+                variant='outline-danger'
                 type='submit'
                 onClick={(e) => {
                   const updatedEvents = props.events;
@@ -39,7 +39,7 @@ export default function Event(props) {
                   axios.delete(`/api/events/${eventid}`).then((res) => {});
                 }}
               >
-                X
+                x
               </Button>
             </div>
           )}
@@ -64,5 +64,5 @@ export default function Event(props) {
         </Container>
       </div>
     </>
-  );
+  )
 }
