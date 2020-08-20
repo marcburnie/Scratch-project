@@ -126,6 +126,7 @@ eventController.allEvents = (req, res, next) => {
               e.content = eventAndContentData.rows.filter((entry) => entry.eventid == e.eventid);
               return e;
             });
+            console.log(mergedTable);
             res.locals.allEventsInfo = mergedTable;
             return next();
           });

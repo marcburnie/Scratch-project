@@ -5,18 +5,20 @@ const queries = {};
 // GET ALL EVENTS
 queries.getAllEvents = `
 SELECT * FROM events
+ORDER BY eventdate, eventstarttime
 `;
 
 queries.getAttendeeEvents = `
-SELECT u.*, ue.eventid
+SELECT u.*, ue.eventid, ue.eventdate, ue.eventstarttime
 FROM usersandevents ue
 JOIN users u
 ON u.userid = ue.userid
+ORDER BY ue.eventdate
 `;
 
 // GET USER'S EVENTS
 queries.userEvents = `
-SELECT * FROM usersandevents WHERE userid=$1
+SELECT * FROM usersandevents WHERE userid=$1 ORDER BY usersandevents.uselessid
 `;
 
 // GET ALL USER'S PERSONAL INFO
@@ -114,6 +116,7 @@ SELECT *
 FROM content
 LEFT JOIN users
 ON content.userid = users.userid
+ORDER BY contentid ASC
 `;
 
 // CLEAR ALL TABLES & DATA
