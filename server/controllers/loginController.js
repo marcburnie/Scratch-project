@@ -27,7 +27,6 @@ loginController.oAuth = async (req, res, next) => {
 };
 //creates Oauth token
 loginController.afterConsent = (req, res, next) => {
-  console.log(process.env.CLIENT_ID);
   const oauth2Client = new google.auth.OAuth2(
     process.env.CLIENT_ID,
     process.env.CLIENT_SECRET,

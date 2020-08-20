@@ -75,7 +75,8 @@ export default function Content({ user, content, eventid }) {
     console.log(fileSelected, fileSelected.name);
     const formData = new FormData();
     formData.append('image', fileSelected, fileSelected.name);
-    const URL = '/content';
+    formData.append('eventid', eventid);
+    const URL = `/content?userName=${user.username}`;
     axios
       .post(URL, formData, {
         headers: {
@@ -83,6 +84,7 @@ export default function Content({ user, content, eventid }) {
           'Accept-Language': 'en-US,en;q=0.8',
           'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
         },
+        withCredentials: true,
       })
       .then((response) => {
         //handle success
