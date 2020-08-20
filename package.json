@@ -49,11 +49,9 @@
     "@fortawesome/react-fontawesome": "^0.1.11",
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
-<<<<<<< HEAD
     "bootstrap": "^4.5.2",
     "express": "^4.17.1",
     "mini-css-extract-plugin": "^0.10.0",
-=======
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
@@ -61,7 +59,6 @@
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
     "node-fetch": "^2.6.0",
->>>>>>> 6676d73394cf07413f9564a60c027fb9239639a5
     "pg": "^8.3.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.3.0",
