@@ -23,7 +23,6 @@ app.use(morgan('dev'));
 
 contentController.createContent = (req, res, next) => {
 	const { userid } = res.locals.allUserInfo;
-
 	const { eventid } = req.body;
 	let content;
 
@@ -45,17 +44,6 @@ contentController.createContent = (req, res, next) => {
 
 			//save file url to content
 			content = path.resolve('/uploads/' + userid + '/' + file.name);
-			console.log('content:', content)
-			//send response 
-			// res.send({  
-			// 	status: true, S 
-			// 	message: 'File is uploaded',
-			// 	data: {
-			// 		name: file.name,
-			// 		mimetype: file.mimetype,
-			// 		size: file.size
-			// 	}
-			// });
 		}
 	} catch (err) {
 		res.status(500).send(err);
