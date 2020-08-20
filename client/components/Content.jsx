@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Media, Form, Button } from 'react-bootstrap';
+import { Media, Form, Button, Image } from 'react-bootstrap';
 import axios from 'axios';
 import fileUpload from 'express-fileupload';
 import FormData from 'form-data';
@@ -16,7 +16,6 @@ export default function Content({ user, content, eventid }) {
     let end = cont.slice(index + 1);
     setCont([...start, ...end]);
   };
-
   let messages = [];
   if (cont) {
     messages = cont.map((message, index) => {
@@ -25,11 +24,19 @@ export default function Content({ user, content, eventid }) {
           <div className='userMessage'>
             <img src={message.profilephoto}></img>
           </div>
-          <div className='message' key={`Content${index}`}>
+          <div
+            style={{ width: '100%' }}
+            className='message'
+            key={`Content${index}`}
+          >
             <p className='messageName'>
               {message.firstname} {message.lastname}
             </p>
-            <p className='messageText'>{message.content}</p>
+            {message.content[0] === '/' || message.content.includes('http') ? (
+              <Image src={`${message.content}`} rounded fluid />
+            ) : (
+              <p className='messageText'>{message.content}</p>
+            )}
             <p className='messageTime'>{message.time}</p>
             {user.username !== message.username || (
               <div id='deleteUpdate'>
@@ -66,7 +73,7 @@ export default function Content({ user, content, eventid }) {
         newMessage.firstname = user.firstname;
         newMessage.lastname = user.lastname;
         setCont([...cont, newMessage]);
-        document.getElementsByName('comment-form')[0].reset();
+        // document.getElementsByName('comment-form')[0].reset();
       });
   }
 
@@ -88,6 +95,13 @@ export default function Content({ user, content, eventid }) {
       })
       .then((response) => {
         //handle success
+        const newMessage = {
+          content: response.data,
+          profilephoto: user.profilephoto,
+          firstname: user.firstname,
+          lastname: user.lastname,
+        };
+        setCont([...cont, newMessage]);
       })
       .catch((error) => {
         //handle error
@@ -107,12 +121,12 @@ export default function Content({ user, content, eventid }) {
           type='file'
           onChange={(e) => setFileSelected(e.target.files[0])}
         />
-        <button onClick={(e) => fileUploadHandler(e)}>Upload</button>
+        {/* <button onClick={(e) => fileUploadHandler(e)}>Upload</button> */}
         <Button
           variant='primary'
           type='submit'
           onClick={(e) => {
-            handleCommentSubmit(e);
+            comment === '' ? fileUploadHandler(e) : handleCommentSubmit(e);
           }}
         >
           Submit

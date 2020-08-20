@@ -55,7 +55,7 @@ export default function CreateEvent({ addEvent, updatingEvent, eventIndex }) {
     formTitle = 'Update Event';
     cardClass = 'cardContainer-small';
   }
-  console.log('apikey', process.env.REACT_APP_PLACES_API);
+
   return (
     <div>
       <div className={cardClass} onClick={handleShow}>
@@ -83,13 +83,7 @@ export default function CreateEvent({ addEvent, updatingEvent, eventIndex }) {
 
             <Form.Group controlId='formEventLocation'>
               <Form.Label>Location</Form.Label>
-              {/* <Form.Control
-                name='eventlocation'
-                onChange={handleChange}
-                required
-                type='text'
-                placeholder='Enter location'
-              /> */}
+
               <GoogleComponent
                 apiKey={process.env.REACT_APP_PLACES_API}
                 language={'en'}
