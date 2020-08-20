@@ -16,6 +16,8 @@ contentController.createContent = (req, res, next) => {
   const queryValues = [userid, eventid, content, contentdate, contenttime];
   db.query(queryString, queryValues)
     .then((data) => {
+      console.log(data);
+      res.locals.createdContent = data.rows[0];
       return next();
     })
     .catch((err) => {
@@ -35,10 +37,14 @@ contentController.updateContent = (req, res, next) => {
     .then((resp) => {
       return next();
     })
-    .catch((err) => next({
-      log: `Error occurred with contentController.deleteContent middleware: ${err}`,
-      message: { err: 'An error occured with SQL when deleting content information.' },
-    }));
+    .catch((err) =>
+      next({
+        log: `Error occurred with contentController.deleteContent middleware: ${err}`,
+        message: {
+          err: 'An error occured with SQL when deleting content information.',
+        },
+      })
+    );
 };
 
 contentController.deleteContent = (req, res, next) => {
@@ -48,10 +54,14 @@ contentController.deleteContent = (req, res, next) => {
     .then((resp) => {
       return next();
     })
-    .catch((err) => next({
-      log: `Error occurred with contentController.deleteContent middleware: ${err}`,
-      message: { err: 'An error occured with SQL when deleting content information.' },
-    }));
+    .catch((err) =>
+      next({
+        log: `Error occurred with contentController.deleteContent middleware: ${err}`,
+        message: {
+          err: 'An error occured with SQL when deleting content information.',
+        },
+      })
+    );
 };
 
 module.exports = contentController;
