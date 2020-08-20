@@ -56,7 +56,6 @@ export default function CreateEvent ({ addEvent, updatingEvent, eventIndex }) {
 		formTitle = 'Update Event';
 		cardClass = 'cardContainer-small';
 	}
-	console.log('apikey', process.env.REACT_APP_PLACES_API)
 	return (
 		<div>
 			<div className={cardClass} onClick={handleShow}>

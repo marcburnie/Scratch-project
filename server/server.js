@@ -10,7 +10,6 @@ const morgan = require('morgan');
 const _ = require('lodash');
 // multimedia handling above
 
-console.log(process.env.REACT_APP_PLACES_API)
 const app = express();
 const apiRouter = require('./routers/api');
 const contentRouter = require('./routers/content');

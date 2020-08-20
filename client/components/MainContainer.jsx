@@ -7,7 +7,6 @@ import { Card, Button, Col, Row, Container } from 'react-bootstrap';
 import AddSearchEvent from './AddSearchEvent.jsx';
 
 // Implemented with hooks throughout
-<<<<<<< HEAD
 export default function MainContainer () {
 	const [userName, setUserName] = useState('');
 	const [user, setUser] = useState({});
@@ -24,7 +23,7 @@ export default function MainContainer () {
 			let eventsInfo = res.data.events;
 			setUser(userInfo);
 			setEvents(eventsInfo);
-			console.log("Events Info:", eventsInfo)
+
 			setUserName(res.data.users.username);
 		});
 	}, []);
@@ -34,7 +33,6 @@ export default function MainContainer () {
 	}
 	//handles the state change and posts to database on event creation
 	function handleCreateEvent (event, newEvent, eventIndex) {
-		console.log(event);
 		let {
 			eventtitle,
 			eventlocation,
@@ -58,57 +56,6 @@ export default function MainContainer () {
 						...updatedEvents[eventIndex],
 						...event,
 					};
-=======
-export default function MainContainer() {
-  const [userName, setUserName] = useState('');
-  const [user, setUser] = useState({});
-  const [events, setEvents] = useState([]);
-  //pull user data after OAuth login - all variables are named from SQL DB columns
-  useEffect(() => {
-    axios.get(`/api/info?userName=${userName}`).then((res) => {
-      let userInfo = {
-        username: res.data.users.username,
-        firstname: res.data.users.firstname,
-        lastname: res.data.users.lastname,
-        profilephoto: res.data.users.profilephoto,
-      };
-      let eventsInfo = res.data.events;
-      setUser(userInfo);
-      setEvents(eventsInfo);
-
-      setUserName(res.data.users.username);
-    });
-  }, []);
-  //updates username when a different user is selected
-  function handleUserPageChange(username) {
-    setUserName(username);
-  }
-  //handles the state change and posts to database on event creation
-  function handleCreateEvent(event, newEvent, eventIndex) {
-    let {
-      eventtitle,
-      eventlocation,
-      eventdate,
-      eventstarttime,
-      eventdetails,
-    } = event;
-    if (!newEvent) {
-      axios
-        .put(`/api/events/${events[eventIndex].eventid}`, {
-          eventtitle,
-          eventlocation,
-          eventdate,
-          eventstarttime,
-          eventdetails,
-        })
-        .then((res) => {
-          // Update events state variable
-          const updatedEvents = events;
-          updatedEvents[eventIndex] = {
-            ...updatedEvents[eventIndex],
-            ...event,
-          };
->>>>>>> a741ccf54ce6fe55504744995a030d7475548a56
 
 					return setEvents(updatedEvents);
 				});
