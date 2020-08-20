@@ -88,19 +88,19 @@ queries.selectEventAttendees =
 
 // GRAB CONTENT OWNER
 queries.checkCommentOwner = `
-SELECT username FROM content JOIN users ON users.userid = content.userid WHERE contentid = $1`
+SELECT username FROM content JOIN users ON users.userid = content.userid WHERE contentid = $1`;
 
 // CREATING CONTENT
 queries.createContent = `
-INSERT INTO content (userid, eventid, content, contentdate, contenttime) VALUES ($1, $2, $3, $4, $5)`
+INSERT INTO content (userid, eventid, content, contentdate, contenttime) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
 
 // UPDATING CONTENT
 queries.updateContent = `
-UPDATE content SET content = $2 WHERE contentid=$1`
+UPDATE content SET content = $2 WHERE contentid=$1`;
 
 // DELETING CONTENT
 queries.deleteContent = `
-DELETE FROM content WHERE contentid=$1`
+DELETE FROM content WHERE contentid=$1`;
 
 // QUERY FOR DELETING ALL CONTENT RELATED TO AN EVENT
 queries.deleteEventContents = `
