@@ -1,13 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Dancing+Script&family=Montserrat&family=Julius+Sans+One&family=Lato:wght@100&family=Poiret+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Dancing+Script&family=Montserrat&family=Julius+Sans+One&family=Baloo+Tamma+2&family=Poiret+One&display=swap');
 
 body {
-  color:rgb(77, 77, 77);
+  color: rgb(77, 77, 77);
 }
 
 .myNavbar {
   // width: 90%;
   background-color: rgb(129, 216, 208);
   margin-bottom: 30px;
+}
+
+.navButton {
+  color: white;
+  border: 1px solid white;
 }
 
 .brand {
@@ -34,6 +39,7 @@ body {
   align-items: center;
   border: 1px rgb(157, 189, 211) solid;
   padding: 2em;
+  padding-left: 80px;
   border-radius: 5px;
   box-shadow: 1px 1px 2px 1px rgb(129, 216, 208);
   background-color: rgb(250, 250, 250);
@@ -42,8 +48,8 @@ body {
 
 .profile img {
   border-radius: 10px;
-  border: 6px solid rgb(129, 216, 208);
-  width: 250px;
+  border: 3px solid rgb(129, 216, 208);
+  width: 150px;
 }
 
 .cardContainer {
@@ -55,18 +61,39 @@ body {
   text-align: center;
   padding-top: 25px;
   margin-top: 40px;
+  margin-right: 25px;
+  font-family: 'Baloo Tamma 2';
 }
-.cardContainer:hover{
-    // color: rgb(37, 13, 190);
+.cardContainer:hover,
+.cardContainer-small:hover {
+  // color: rgb(37, 13, 190);
   background-color: #9ed0d8;
+  color: rgb(255, 255, 255);
   cursor: pointer;
+}
+
+.cardContainer-small {
+  border: 1px gainsboro solid;
+  width: 50px;
+  height: 50px;
+  border-radius: 2px;
+  box-shadow: 1px 1px 1px 1px gainsboro;
+  text-align: center;
+  padding-top: 10px;
+  margin-top: 15px;
+  margin-right: 10px;
+  font-family: 'Baloo Tamma 2';
+}
+
+.cardContainer p {
+  padding-top: 20px;
 }
 
 /* Event.jsx */
 
 .event {
   border: 1px solid gainsboro;
- margin: 1em;
+  margin: 1em;
   padding: 1em;
   box-shadow: 1px 1px 1px 1px gainsboro;
   border-radius: 5px;
@@ -74,10 +101,8 @@ body {
 }
 
 .jumbotron {
-  // background-color: rgb(253, 238, 205);
   border: 1px solid rgb(129, 216, 208);
   box-shadow: 1px 1px 1px 1px gainsboro;
-  // background-color: transparent;
 }
 
 .eventJumbotron {
@@ -87,8 +112,13 @@ body {
 
 .eventJumbotron h1 {
   font-family: 'Abril Fatface';
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   font-size: 60px;
+}
+
+.event-owner-buttons {
+  display: flex;
+  justify-content: flex-end;
 }
 
 /* EventAttendees.jsx */
@@ -104,7 +134,6 @@ body {
   margin: 10px;
 }
 .circular img {
-  // width: 50px;
   height: 85px;
   object-fit: contain;
   position: absolute;
@@ -141,7 +170,6 @@ body {
   margin: 0.3em;
 }
 
-
 /* Content.jsx */
 
 .userMessage {
@@ -156,15 +184,15 @@ body {
 }
 
 .userMessage img {
-    height: 50px;
-    object-fit: contain;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);  
+  height: 50px;
+  object-fit: contain;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 .messageBox {
   display: flex;
@@ -184,7 +212,6 @@ body {
   padding: 10px;
 }
 
-
 /* rainbow divider */
 
 $bg: white;
@@ -201,7 +228,7 @@ $barsize: 15px;
 
   &:after,
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 1px;
@@ -210,78 +237,107 @@ $barsize: 15px;
   }
 
   &:before {
-
-    background: linear-gradient( 90deg, $bg 0%, $bg 50%, transparent 50%, transparent 100% );
+    background: linear-gradient(
+      90deg,
+      $bg 0%,
+      $bg 50%,
+      transparent 50%,
+      transparent 100%
+    );
     background-size: $barsize;
     background-position: center;
     z-index: 1;
-
   }
 
   &:after {
     transition: opacity 0.3s ease, animation 0.3s ease;
     background: linear-gradient(
-        to right, 
-        #62efab 5%, 
-        #F2EA7D 15%, 
-        #F2EA7D 25%, 
-        #FF8797 35%, 
-        #FF8797 45%, 
-        #e1a4f4 55%, 
-        #e1a4f4 65%, 
-        #82fff4 75%, 
-        #82fff4 85%, 
-        #62efab 95%);
+      to right,
+      #62efab 5%,
+      #f2ea7d 15%,
+      #f2ea7d 25%,
+      #ff8797 35%,
+      #ff8797 45%,
+      #e1a4f4 55%,
+      #e1a4f4 65%,
+      #82fff4 75%,
+      #82fff4 85%,
+      #62efab 95%
+    );
     background-size: 200%;
     background-position: 0%;
     animation: bar 15s linear infinite;
   }
 
   @keyframes bar {
-    0% { background-position: 0%; }
-    100% { background-position: 200%; }
+    0% {
+      background-position: 0%;
+    }
+    100% {
+      background-position: 200%;
+    }
   }
 }
 
 .hr.anim {
   &:before {
-    background: linear-gradient( 
-      90deg, 
-      $bg 0%, $bg 5%, 
-      transparent 5%, transparent 10%, 
-      $bg 10%, $bg 15%, 
-      transparent 15%, transparent 20%, 
-      $bg 20%, $bg 25%,
-      transparent 25%, transparent 30%,
-      $bg 30%, $bg 35%, 
-      transparent 35%, transparent 40%, 
-      $bg 40%, $bg 45%, 
-      transparent 45%, transparent 50%, 
-      $bg 50%, $bg 55%,
-      transparent 55%, transparent 60%,
-      $bg 60%, $bg 65%,
-      transparent 65%, transparent 70%, 
-      $bg 70%, $bg 75%, 
-      transparent 75%, transparent 80%, 
-      $bg 80%, $bg 85%,
-      transparent 85%, transparent 90%,
-      $bg 90%, $bg 95%, 
-      transparent 95%, transparent 100% );
+    background: linear-gradient(
+      90deg,
+      $bg 0%,
+      $bg 5%,
+      transparent 5%,
+      transparent 10%,
+      $bg 10%,
+      $bg 15%,
+      transparent 15%,
+      transparent 20%,
+      $bg 20%,
+      $bg 25%,
+      transparent 25%,
+      transparent 30%,
+      $bg 30%,
+      $bg 35%,
+      transparent 35%,
+      transparent 40%,
+      $bg 40%,
+      $bg 45%,
+      transparent 45%,
+      transparent 50%,
+      $bg 50%,
+      $bg 55%,
+      transparent 55%,
+      transparent 60%,
+      $bg 60%,
+      $bg 65%,
+      transparent 65%,
+      transparent 70%,
+      $bg 70%,
+      $bg 75%,
+      transparent 75%,
+      transparent 80%,
+      $bg 80%,
+      $bg 85%,
+      transparent 85%,
+      transparent 90%,
+      $bg 90%,
+      $bg 95%,
+      transparent 95%,
+      transparent 100%
+    );
 
     background-size: $barsize * 10;
     background-position: center;
     z-index: 1;
-    
+
     animation: bar 120s linear infinite;
-      
   }
 
   &:hover {
     &:before {
-        animation-duration: 20s;
+      animation-duration: 20s;
     }
     &:after {
-        animation-duration: 2s;
+      animation-duration: 2s;
     }
   }
 }
