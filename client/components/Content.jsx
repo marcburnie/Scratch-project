@@ -72,6 +72,7 @@ export default function Content({ user, content, eventid }) {
         newMessage.profilephoto = user.profilephoto;
         newMessage.firstname = user.firstname;
         newMessage.lastname = user.lastname;
+        newMessage.username = user.username;
         setCont([...cont, newMessage]);
         document.getElementsByName('comment-form')[0].reset();
       });
