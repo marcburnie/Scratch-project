@@ -13,9 +13,11 @@ const morgan = require('morgan');
 const _ = require('lodash');
 
 // enable files upload
-app.use(fileUpload({
-	createParentPath: true
-}));
+app.use(
+	fileUpload({
+		createParentPath: true,
+	})
+);
 
 //add other middleware
 app.use(cors());
@@ -89,10 +91,14 @@ contentController.updateContent = (req, res, next) => {
 		.then((resp) => {
 			return next();
 		})
-		.catch((err) => next({
-			log: `Error occurred with contentController.deleteContent middleware: ${err}`,
-			message: { err: 'An error occured with SQL when deleting content information.' },
-		}));
+		.catch((err) =>
+			next({
+				log: `Error occurred with contentController.deleteContent middleware: ${err}`,
+				message: {
+					err: 'An error occured with SQL when deleting content information.',
+				},
+			})
+		);
 };
 
 contentController.deleteContent = (req, res, next) => {
@@ -102,10 +108,14 @@ contentController.deleteContent = (req, res, next) => {
 		.then((resp) => {
 			return next();
 		})
-		.catch((err) => next({
-			log: `Error occurred with contentController.deleteContent middleware: ${err}`,
-			message: { err: 'An error occured with SQL when deleting content information.' },
-		}));
+		.catch((err) =>
+			next({
+				log: `Error occurred with contentController.deleteContent middleware: ${err}`,
+				message: {
+					err: 'An error occured with SQL when deleting content information.',
+				},
+			})
+		);
 };
 
 module.exports = contentController;
