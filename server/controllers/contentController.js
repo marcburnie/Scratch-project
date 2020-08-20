@@ -25,6 +25,7 @@ contentController.createContent = (req, res, next) => {
 	const { userid } = res.locals.allUserInfo;
 	const { eventid } = req.body;
 	let content;
+	const queryString = queries.createContent;
 
 	// define new date/time
 	const now = new Date();
@@ -34,7 +35,22 @@ contentController.createContent = (req, res, next) => {
 	try {
 		//check if a file is uploaded
 		if (!req.files) {
+			/////////
 			content = req.body.content;
+			const queryValues = [userid, eventid, content, contentdate, contenttime];
+			db.query(queryString, queryValues)
+				.then((data) => {
+					res.locals.createdContent = data.rows[0]
+					return next();
+				})
+				.catch((err) => {
+					return next({
+						log: `Error occurred with queries.createContent OR contentController.createCotent middleware: ${err}`,
+						message: { err: 'An error occured with SQL when creating content.' },
+					});
+				});
+			////////
+			// content = req.body.content;
 		} else {
 			//Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
 			const file = req.files.file;
@@ -48,18 +64,18 @@ contentController.createContent = (req, res, next) => {
 	} catch (err) {
 		res.status(500).send(err);
 	}
-	const queryString = queries.createContent;
-	const queryValues = [userid, eventid, content, contentdate, contenttime];
-	db.query(queryString, queryValues)
-		.then((data) => {
-			return next();
-		})
-		.catch((err) => {
-			return next({
-				log: `Error occurred with queries.createContent OR contentController.createCotent middleware: ${err}`,
-				message: { err: 'An error occured with SQL when creating content.' },
-			});
-		});
+
+	// const queryValues = [userid, eventid, content, contentdate, contenttime];
+	// db.query(queryString, queryValues)
+	// 	.then((data) => {
+	// 		return next();
+	// 	})
+	// 	.catch((err) => {
+	// 		return next({
+	// 			log: `Error occurred with queries.createContent OR contentController.createCotent middleware: ${err}`,
+	// 			message: { err: 'An error occured with SQL when creating content.' },
+	// 		});
+	// 	});
 
 
 };
