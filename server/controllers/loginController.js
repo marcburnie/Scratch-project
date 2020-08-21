@@ -6,7 +6,7 @@ loginController.oAuth = async (req, res, next) => {
   const oauth2Client = new google.auth.OAuth2(
     process.env.CLIENT_ID,
     process.env.CLIENT_SECRET,
-    'http://localhost:3000/api/login/google'
+    'https://social-scrapbook.herokuapp.com/api/login/google'
   );
 
   const scopes = [
@@ -30,7 +30,7 @@ loginController.afterConsent = (req, res, next) => {
   const oauth2Client = new google.auth.OAuth2(
     process.env.CLIENT_ID,
     process.env.CLIENT_SECRET,
-    'http://localhost:3000/api/login/google'
+    'https://social-scrapbook.herokuapp.com/api/login/google'
   );
 
   oauth2Client

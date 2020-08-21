@@ -21,7 +21,7 @@ router.get('/login/google',
   cookieController.setSSIDCookie,
   fileController.createUser, // if username already exists, return next() => getUser // if not, create user in SQL database
   (req, res) => {
-    return res.redirect('/') //WAS "http://localhost:8080/"
+    return res.redirect('/')
   });
 
 // REVISIT WEBSITE AFTER LEAVING, OR VISITING SOMEONE ELSE'S PROFILE PAGE
