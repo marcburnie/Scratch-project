@@ -59,10 +59,10 @@ export default function CreateEvent({ addEvent, updatingEvent, eventIndex }) {
   return (
     <div>
       <div className={cardClass} onClick={handleShow}>
-        <FontAwesomeIcon className='mx-auto faPlus' icon={faPlus} />
+      <i className="fas fa-edit" ></i>
         <p>{buttonTitle}</p>
       </div>
-
+      
       <Modal show={show} onHide={handleClose} animation={true}>
         <Modal.Header closeButton>
           <Modal.Title>{formTitle}</Modal.Title>
@@ -111,7 +111,7 @@ export default function CreateEvent({ addEvent, updatingEvent, eventIndex }) {
             </Form.Group>
 
             <Button
-              variant='primary'
+              variant='info'
               type='submit'
               onClick={(e) => {
                 handleSubmit(e, newEvent);

@@ -1,13 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Dancing+Script&family=Montserrat&family=Julius+Sans+One&family=Baloo+Tamma+2&family=Poiret+One&display=swap');
 
+$colorOld: rgb(129, 216, 208); // original color for navbar
+// New Color SCheme
+$color1:  #040F57;
+$color2: #12348D;
+$color3: #9043C3; // updated navbar color
+$color4: #D75CA2;
+$color5: #BD2B48;
+$color6: #E79556; 
+
+
 body {
   color: rgb(77, 77, 77);
 }
 
 .myNavbar {
   // width: 90%;
-  background-color: rgb(129, 216, 208);
+  background-color: $color3; 
   margin-bottom: 30px;
+  color: white;
 }
 
 .navButton {
@@ -19,6 +30,7 @@ body {
   font-family: 'Dancing Script', cursive;
   font-size: 40px;
   margin-bottom: 10px;
+  color: white;
 }
 
 .col {
@@ -41,14 +53,14 @@ body {
   padding: 2em;
   padding-left: 80px;
   border-radius: 5px;
-  box-shadow: 1px 1px 2px 1px rgb(129, 216, 208);
+  box-shadow: 1px 1px 2px 1px $color3;
   background-color: rgb(250, 250, 250);
   font-family: 'Poiret One', cursive;
 }
 
 .profile img {
   border-radius: 10px;
-  border: 3px solid rgb(129, 216, 208);
+  border: 3px solid $color2;
   width: 150px;
 }
 
@@ -59,28 +71,41 @@ body {
   border-radius: 5px;
   box-shadow: 1px 1px 1px 1px gainsboro;
   text-align: center;
-  padding-top: 25px;
+  padding-top: 30px;
   margin-top: 40px;
   margin-right: 25px;
   font-family: 'Baloo Tamma 2';
 }
 .cardContainer:hover,
-.cardContainer-small:hover {
-  // color: rgb(37, 13, 190);
-  background-color: #9ed0d8;
+.cardContainer-small:hover{  
+  background-color: $color2;
   color: rgb(255, 255, 255);
   cursor: pointer;
 }
 
+.cardContainerAdd {
+  border: 1px gainsboro solid;
+  width: 150px;
+  height: 150px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px 1px gainsboro;
+  text-align: center;
+  padding-top: 50px;
+  margin-top: 40px;
+  margin-right: 25px;
+  font-family: 'Baloo Tamma 2';  
+}
+
 .cardContainer-small {
   border: 1px gainsboro solid;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 2px;
   box-shadow: 1px 1px 1px 1px gainsboro;
   text-align: center;
   padding-top: 10px;
-  margin-top: 15px;
+  margin-top: 10px;
+  margin-bottom: 5px;
   margin-right: 10px;
   font-family: 'Baloo Tamma 2';
 }
@@ -91,8 +116,16 @@ body {
 
 /* Event.jsx */
 
+.events {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .event {
   border: 1px solid gainsboro;
+  flex: 1 0 33%;
+  min-width: 33%;
   margin: 1em;
   padding: 1em;
   box-shadow: 1px 1px 1px 1px gainsboro;
@@ -101,7 +134,7 @@ body {
 }
 
 .jumbotron {
-  border: 1px solid rgb(129, 216, 208);
+  border: 1px solid $color3;
   box-shadow: 1px 1px 1px 1px gainsboro;
 }
 
@@ -120,6 +153,9 @@ body {
   display: flex;
   justify-content: flex-end;
 }
+
+
+
 
 /* EventAttendees.jsx */
 
@@ -152,6 +188,7 @@ body {
 .attendees {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   margin-bottom: 20px;
 }
 
@@ -197,12 +234,18 @@ body {
 .messageBox {
   display: flex;
   justify-content: left;
+  
+}
+
+.messages {
+  max-height: 400px;
+  overflow: scroll;
 }
 
 .messages p {
   font-size: 12px;
   padding: 0;
-  margin: 0;
+  margin: 0;  
 }
 .messageName {
   font-weight: bold;
@@ -211,6 +254,12 @@ body {
 .message {
   padding: 10px;
 }
+
+.msg-btns{
+  display:flex;
+ justify-content:space-around;
+}
+
 
 /* rainbow divider */
 
@@ -253,21 +302,22 @@ $barsize: 15px;
     transition: opacity 0.3s ease, animation 0.3s ease;
     background: linear-gradient(
       to right,
-      #62efab 5%,
-      #f2ea7d 15%,
-      #f2ea7d 25%,
-      #ff8797 35%,
-      #ff8797 45%,
-      #e1a4f4 55%,
-      #e1a4f4 65%,
-      #82fff4 75%,
-      #82fff4 85%,
-      #62efab 95%
+      #BD2B48 5%,
+      #040F57 15%,
+      #040F57 25%,
+      #12348D 35%,
+      #12348D 45%,
+      #9043C3 55%,
+      #9043C3 65%,
+      #D75CA2 75%,
+      #D75CA2 85%,
+      #BD2B48 95%
     );
     background-size: 200%;
     background-position: 0%;
     animation: bar 15s linear infinite;
   }
+
 
   @keyframes bar {
     0% {
@@ -339,5 +389,22 @@ $barsize: 15px;
     &:after {
       animation-duration: 2s;
     }
+  }
+  .btn-danger {
+    // border: 1px gainsboro solid;
+    background-color: #9043C3;
+    width: 150px;
+    height: 150px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 1px gainsboro;
+    text-align: center;
+    padding-top: 25px;
+    margin-top: 40px;
+    margin-right: 25px;
+    font-family: 'Baloo Tamma 2';
+  }
+  .deleteEvent {
+    width: 40px;
+    height: 40px;
   }
 }

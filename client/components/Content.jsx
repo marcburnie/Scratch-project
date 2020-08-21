@@ -39,14 +39,16 @@ export default function Content({ user, content, eventid }) {
             )}
             <p className='messageTime'>{message.time}</p>
             {user.username !== message.username || (
-              <div id='deleteUpdate'>
-                <button
-                  id='delete'
-                  onClick={(e) => deleteContent(e, message.contentid, index)}
+              <span >
+                <Button
+                  variant="outline-info"
+                  type='submit'
+                  size="sm"
+                  onClick={(e) => deleteContent(e, message.contentid, index)} className='deleteUpdate'
                 >
-                  x
-                </button>
-              </div>
+                <i class="fa fa-trash" aria-hidden="true"></i>
+                </Button>
+              </span>
             )}
           </div>
         </div>
@@ -69,6 +71,7 @@ export default function Content({ user, content, eventid }) {
       })
       .then((resp) => {
         const newMessage = resp.data;
+        console.log('NEW MESSAGE: ',newMessage)
         newMessage.profilephoto = user.profilephoto;
         newMessage.firstname = user.firstname;
         newMessage.lastname = user.lastname;
@@ -119,13 +122,17 @@ export default function Content({ user, content, eventid }) {
           <Form.Label>Add a Comment:</Form.Label>
           <Form.Control as='textarea' rows='2' onChange={handleChange} />
         </Form.Group>
+        <div className='msg-btns'>
+
+
+
         <input
           type='file'
           onChange={(e) => setFileSelected(e.target.files[0])}
         />
 
         <Button
-          variant='primary'
+          variant="info"
           type='submit'
           onClick={(e) => {
             comment === '' ? fileUploadHandler(e) : handleCommentSubmit(e);
@@ -133,6 +140,7 @@ export default function Content({ user, content, eventid }) {
         >
           Submit
         </Button>
+        </div>
       </Form>
     </div>
   );
