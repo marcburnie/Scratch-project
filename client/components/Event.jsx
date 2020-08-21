@@ -62,7 +62,8 @@ export default function Event(props) {
                   axios.delete(`/api/events/${eventid}`).then((res) => { });
                 }}
               >
-                X
+              <i className="fa fa-trash" aria-hidden="true"></i>
+
               </Button>
             </div>
           )}
@@ -76,5 +77,5 @@ export default function Event(props) {
         </Container>
       </div>
     </>
-  );
+  )
 }

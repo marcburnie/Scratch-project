@@ -28,7 +28,6 @@ eventController.createEvent = (req, res, next) => {
 };
 
 eventController.addNewEventToJoinTable = (req, res, next) => {
-  console.log('eventController.addNewEventToJoinTable');
   const queryString = queries.addNewEventToJoinTable;
   const queryValues = [res.locals.eventID.eventid];
   db.query(queryString, queryValues)
